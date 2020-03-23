@@ -14,7 +14,7 @@ export default class LoginForm extends Component {
 
         <LoginButton
           color={'#f1f1f1'}
-          backgroundColor={'#46b4a6'}
+          backgroundColor={'#8bad9d'}
           text={'Sign In Now'}
         />
       </View>
