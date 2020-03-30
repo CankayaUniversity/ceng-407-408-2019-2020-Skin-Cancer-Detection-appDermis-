@@ -40,6 +40,14 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
+		445ED0D357794D9698EA2A33 /* libRNCMaskedView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 418FCAF66AF74A859589FC05 /* libRNCMaskedView.a */; };
+		CFFC7977296F4D168899766F /* libRNReanimated.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CA4C670AA384E14B36A0ED8 /* libRNReanimated.a */; };
+		8CEE0225BBFD4AF598596D88 /* libRNReanimated-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 151DAD16E0384C0396DD6DCB /* libRNReanimated-tvOS.a */; };
+		A9186BADF6064804A3CECEB4 /* libRNCSafeAreaContext.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A43399FF28AC431BB20AB11D /* libRNCSafeAreaContext.a */; };
+		4BE253DBC7494FFD8EF3241E /* libRNScreens.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA3079A482A2435E9A71FC21 /* libRNScreens.a */; };
+		BDDDCD31AC1A4EEFA3F59498 /* libRNScreens-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFE2CBAB1EE4FBDB502F945 /* libRNScreens-tvOS.a */; };
+		FAD23E69B7954771AFF0B674 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA26CC90508E4CD792A9ADF3 /* libRNGestureHandler.a */; };
+		621B26DEA83146C7BA948C4E /* libRNGestureHandler-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53C7C2539A1D4EC4AD303592 /* libRNGestureHandler-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -347,6 +355,19 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		FB9F97D2B6B34C52AB2ABA03 /* RNCMaskedView.xcodeproj */ = {isa = PBXFileReference; name = "RNCMaskedView.xcodeproj"; path = "../node_modules/@react-native-community/masked-view/ios/RNCMaskedView.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		418FCAF66AF74A859589FC05 /* libRNCMaskedView.a */ = {isa = PBXFileReference; name = "libRNCMaskedView.a"; path = "libRNCMaskedView.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		F728FC63E3B94D0CA4F04E84 /* RNReanimated.xcodeproj */ = {isa = PBXFileReference; name = "RNReanimated.xcodeproj"; path = "../node_modules/react-native-reanimated/ios/RNReanimated.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		8CA4C670AA384E14B36A0ED8 /* libRNReanimated.a */ = {isa = PBXFileReference; name = "libRNReanimated.a"; path = "libRNReanimated.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		151DAD16E0384C0396DD6DCB /* libRNReanimated-tvOS.a */ = {isa = PBXFileReference; name = "libRNReanimated-tvOS.a"; path = "libRNReanimated-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		F47536A98BA8408ABA844FCB /* SafeAreaView.xcodeproj */ = {isa = PBXFileReference; name = "SafeAreaView.xcodeproj"; path = "../node_modules/react-native-safe-area-context/ios/SafeAreaView.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		A43399FF28AC431BB20AB11D /* libRNCSafeAreaContext.a */ = {isa = PBXFileReference; name = "libRNCSafeAreaContext.a"; path = "libRNCSafeAreaContext.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		C1D3C1794D1A4601A1822631 /* RNScreens.xcodeproj */ = {isa = PBXFileReference; name = "RNScreens.xcodeproj"; path = "../node_modules/react-native-screens/ios/RNScreens.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		EA3079A482A2435E9A71FC21 /* libRNScreens.a */ = {isa = PBXFileReference; name = "libRNScreens.a"; path = "libRNScreens.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		BEFE2CBAB1EE4FBDB502F945 /* libRNScreens-tvOS.a */ = {isa = PBXFileReference; name = "libRNScreens-tvOS.a"; path = "libRNScreens-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		C904873162174A40A6D39795 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; name = "RNGestureHandler.xcodeproj"; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		CA26CC90508E4CD792A9ADF3 /* libRNGestureHandler.a */ = {isa = PBXFileReference; name = "libRNGestureHandler.a"; path = "libRNGestureHandler.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		53C7C2539A1D4EC4AD303592 /* libRNGestureHandler-tvOS.a */ = {isa = PBXFileReference; name = "libRNGestureHandler-tvOS.a"; path = "libRNGestureHandler-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -375,6 +396,11 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				445ED0D357794D9698EA2A33 /* libRNCMaskedView.a in Frameworks */,
+				CFFC7977296F4D168899766F /* libRNReanimated.a in Frameworks */,
+				A9186BADF6064804A3CECEB4 /* libRNCSafeAreaContext.a in Frameworks */,
+				4BE253DBC7494FFD8EF3241E /* libRNScreens.a in Frameworks */,
+				FAD23E69B7954771AFF0B674 /* libRNGestureHandler.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,6 +417,10 @@
 				2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */,
 				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
+				40C76A4F6F894E80AD7F9FD2 /* libRNGestureHandler-tvOS.a in Frameworks */,
+				8CEE0225BBFD4AF598596D88 /* libRNReanimated-tvOS.a in Frameworks */,
+				BDDDCD31AC1A4EEFA3F59498 /* libRNScreens-tvOS.a in Frameworks */,
+				621B26DEA83146C7BA948C4E /* libRNGestureHandler-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,6 +594,11 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
+				FB9F97D2B6B34C52AB2ABA03 /* RNCMaskedView.xcodeproj */,
+				F728FC63E3B94D0CA4F04E84 /* RNReanimated.xcodeproj */,
+				F47536A98BA8408ABA844FCB /* SafeAreaView.xcodeproj */,
+				C1D3C1794D1A4601A1822631 /* RNScreens.xcodeproj */,
+				C904873162174A40A6D39795 /* RNGestureHandler.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -692,7 +727,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -1189,6 +1224,19 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/appDermis.app/appDermis";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)\..\node_modules\@react-native-community\masked-view\ios",
+					"$(SRCROOT)\..\node_modules\react-native-reanimated\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
+					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+				);
 			};
 			name = Debug;
 		};
@@ -1207,6 +1255,19 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/appDermis.app/appDermis";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)\..\node_modules\@react-native-community\masked-view\ios",
+					"$(SRCROOT)\..\node_modules\react-native-reanimated\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
+					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+				);
 			};
 			name = Release;
 		};
@@ -1226,6 +1287,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = appDermis;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)\..\node_modules\@react-native-community\masked-view\ios",
+					"$(SRCROOT)\..\node_modules\react-native-reanimated\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
+					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+				);
 			};
 			name = Debug;
 		};
@@ -1244,6 +1313,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = appDermis;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)\..\node_modules\@react-native-community\masked-view\ios",
+					"$(SRCROOT)\..\node_modules\react-native-reanimated\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
+					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+				);
 			};
 			name = Release;
 		};
@@ -1270,6 +1347,19 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)\..\node_modules\@react-native-community\masked-view\ios",
+					"$(SRCROOT)\..\node_modules\react-native-reanimated\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
+					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+				);
 			};
 			name = Debug;
 		};
@@ -1296,6 +1386,19 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)\..\node_modules\@react-native-community\masked-view\ios",
+					"$(SRCROOT)\..\node_modules\react-native-reanimated\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
+					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+				);
 			};
 			name = Release;
 		};
@@ -1321,6 +1424,19 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/appDermis-tvOS.app/appDermis-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)\..\node_modules\@react-native-community\masked-view\ios",
+					"$(SRCROOT)\..\node_modules\react-native-reanimated\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
+					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+				);
 			};
 			name = Debug;
 		};
@@ -1346,6 +1462,19 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/appDermis-tvOS.app/appDermis-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)\..\node_modules\@react-native-community\masked-view\ios",
+					"$(SRCROOT)\..\node_modules\react-native-reanimated\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
+					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
+					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+				);
 			};
 			name = Release;
 		};
