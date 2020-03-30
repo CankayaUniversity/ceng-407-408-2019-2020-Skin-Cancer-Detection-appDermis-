@@ -3,6 +3,11 @@ package com.appdermis;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.swmansion.rnscreens.RNScreensPackage;
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
+import com.swmansion.reanimated.ReanimatedPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import org.reactnative.maskedview.RNCMaskedViewPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -22,7 +27,12 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage()
+          new MainReactPackage(),
+            new RNScreensPackage(),
+            new SafeAreaContextPackage(),
+            new ReanimatedPackage(),
+            new RNGestureHandlerPackage(),
+            new RNCMaskedViewPackage()
       );
     }
 
