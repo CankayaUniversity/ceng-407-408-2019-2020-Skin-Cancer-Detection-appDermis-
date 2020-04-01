@@ -10,32 +10,35 @@ import {
 } from 'react-native'
 import LoginForm from './LoginForm'
 
+
 export default class Login extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <KeyboardAvoidingView behavior={'position'}>
-                    <View style={styles.logo}>
-                        <Image source={require('../assets/logo.png')}></Image>
-                    </View>
-                    <ScrollView>
-                        <View style={styles.loginArea}>
-                            <Text style={styles.loginAreaTitle}>Giriş</Text>
-                            <Text style={styles.loginAreaDescription}>
-                                Kullanıcı adı veya E-Mail adresinizle giriş yapınız.
-                            </Text>
-
-                            <LoginForm/>
+            <ScrollView>
+                <View style={styles.container}>
+                    <KeyboardAvoidingView behavior={'position'}>
+                        <View style={styles.logo}>
+                            <Image source={require('../assets/logo.png')}></Image>
                         </View>
-                    </ScrollView>
-                    <View style={styles.signupAlani}>
-                        <Text style={styles.signupDesc}>Hesabınız yok mu?</Text>
-                        <TouchableOpacity>
-                            <Text style={styles.signupText}>Hesap Oluştur</Text>
-                        </TouchableOpacity>
-                    </View>
-                </KeyboardAvoidingView>
-            </View>
+                        <ScrollView>
+                            <View style={styles.loginArea}>
+                                <Text style={styles.loginAreaTitle}>Giriş</Text>
+                                <Text style={styles.loginAreaDescription}>
+                                    Kullanıcı adı veya E-Mail adresinizle giriş yapınız.
+                                </Text>
+
+                                <LoginForm/>
+                            </View>
+                        </ScrollView>
+                        <View style={styles.signupAlani}>
+                            <Text style={styles.signupDesc}>Hesabınız yok mu?</Text>
+                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Register')}>
+                                <Text style={styles.signupText}>Hesap Oluştur</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </KeyboardAvoidingView>
+                </View>
+            </ScrollView>
         )
     }
 }
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     logoDescription: {
         textAlign: 'center',
