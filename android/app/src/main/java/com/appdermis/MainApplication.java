@@ -3,6 +3,7 @@ package com.appdermis;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
             new RNScreensPackage(),
             new SafeAreaContextPackage(),
             new ReanimatedPackage(),

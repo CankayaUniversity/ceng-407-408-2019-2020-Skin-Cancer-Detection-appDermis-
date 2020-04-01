@@ -7,7 +7,7 @@ export default class LoginButton extends Component {
     const { color, backgroundColor } = this.props
 
     return (
-      <TouchableOpacity  style={[styles.button, { backgroundColor }]}>
+      <TouchableOpacity style={[styles.button, { backgroundColor }]}>
         <Text style={[styles.text, { color }]}>{this.props.text}</Text>
       </TouchableOpacity>
     )

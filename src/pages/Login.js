@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import LoginForm from './LoginForm'
 
+
 export default class Login extends Component {
     render() {
         return (
@@ -31,7 +32,7 @@ export default class Login extends Component {
                         </ScrollView>
                         <View style={styles.signupAlani}>
                             <Text style={styles.signupDesc}>Hesabınız yok mu?</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Register')}>
                                 <Text style={styles.signupText}>Hesap Oluştur</Text>
                             </TouchableOpacity>
                         </View>
