@@ -19,22 +19,24 @@ export default class Router extends Component {
     render() {
         return (
             <NavigationContainer>
-                <Stack.Navigator  initialRouteName="Login">
+                <Stack.Navigator  initialRouteName="Profile">
                     <Stack.Screen options={{ headerShown: false }} name="Login" component={Login}/>
                     <Stack.Screen options={{ headerShown: false }} name="Register" component={Register}/>
                     <Stack.Screen 
-                    options={{
-                        headerTitle: 'vsdsd',
-                        headerRight: () => (
+                        options={{
+                        headerTitle: '',
+                        headerStyle: {
+                        backgroundColor: '#8bad9d'
+                    },
+                        
+                      /*  headerRight: () => (
                     <Button
                         onPress={() => alert('This is a button!')}
                         title="Info"
                         color="#fff"
                     />
-          ),
-        }}
-                    
-                    
+                    ),*/
+                 }}
                     name="Profile" component={TabNavigator}/>
                 </Stack.Navigator>
             </NavigationContainer>
