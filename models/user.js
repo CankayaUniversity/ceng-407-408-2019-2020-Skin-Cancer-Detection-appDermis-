@@ -79,11 +79,9 @@ userSchema.statics.findUserByCredentails = function(email,password){
 userSchema.statics.findUserByToken = function(token){
     const User = this;
     let decoded;
-    console.log(token)
     try{
         decoded = jwt.verify(token,'shhhhh')
     } catch(e){
-        console.log(e)
         return Promise.reject();
     }
     return User.findOne({
