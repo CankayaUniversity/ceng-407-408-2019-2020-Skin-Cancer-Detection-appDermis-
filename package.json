@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "serve": "nodemon server/index.js"
+    "serve": "nodemon server/index.js",
+    "dev": "concurrently --kill-others \"node node_modules/react-native/local-cli/cli.js start\" \"node server/index.js\""
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.7",
