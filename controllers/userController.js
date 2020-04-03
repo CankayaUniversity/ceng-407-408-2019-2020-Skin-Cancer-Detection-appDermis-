@@ -30,9 +30,17 @@ router.post("/create", (req,res) => {
     })
 })
 
-router.get("/login", (req,res) => {
+router.post("/login", (req,res) => {
+    User.findUserByCredentails(req.body.email, req.body.password).then((user) => {
+        console.log(user)
+        res.send(user)
+    }).catch((err) => {
+        console.log(err)
+        res.status(400).send(err)
 
+    })
 })
+
 router.delete("/logout", (req,res) => {
 
 })

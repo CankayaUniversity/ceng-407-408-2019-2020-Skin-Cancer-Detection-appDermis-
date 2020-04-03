@@ -52,6 +52,31 @@ userSchema.methods.generateAuthToken = function () {
         return token
     })
 }
+
+userSchema.statics.findUserByCredentails = function(email,password){
+   const User = this;
+  return User.findOne({email}).then((user) => {
+    if(!user){
+      return Promise.reject();
+    } else {
+      return new Promise((resolve, reject)=>{
+        /*bcrypt.compare(password, user.password, (err, res) => {
+          if(res){
+            resolve(user);
+          } else {
+              console.log("err",err)
+            reject();
+          }
+        });*/
+        if(password === user.password){
+            resolve(user);
+          } else {
+            reject();
+          }
+      });
+    }
+  });
+}
 const User = mongoose.model('User', userSchema);
 
 module.exports = {User}
