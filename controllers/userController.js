@@ -37,7 +37,11 @@ router.post("/login", (req,res) => {
     })
 })
 
-router.delete("/logout", (req,res) => {
-
+router.delete("/logout", authenticate, (req,res) => {
+    req.user.removeToken(req.token).then(()=>{
+        res.status(200).send("user logged out")
+    }).catch((err)=>{
+        res.status(401).send()
+    })
 })
 module.exports = router;

@@ -90,6 +90,15 @@ userSchema.statics.findUserByToken = function(token){
 		'tokens.access':'auth'
     })
 }
+
+userSchema.methods.removeToken = function (token){
+    const user = this
+    return user.update({
+        $pull:{
+            tokens: {token}
+        }
+    })
+}
 const User = mongoose.model('User', userSchema);
 
 module.exports = {User}
