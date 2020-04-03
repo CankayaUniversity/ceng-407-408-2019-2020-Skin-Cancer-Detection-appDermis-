@@ -6,7 +6,6 @@ const { User } = require("../models/user")
 })*/
 
 router.post("/create", (req,res) => {
-    console.log(req.body)
     const userData = {
         name: req.body.name,
         surname: req.body.surname,
@@ -16,11 +15,18 @@ router.post("/create", (req,res) => {
     const user = new User(userData)
     user.save().then((user)=>{
         if(user){
-            res.send(user)
+            return user.generateAuthToken()
         }
         else{
             res.sendStatus(400)
         }
+    }).then((token) => {
+        console.log(token)
+        res.header({"x-auth":token}).send(user)
+
+    }).catch((err) => {
+        console.log(err)
+        res.status(400).send(err)
     })
 })
 
