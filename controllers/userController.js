@@ -1,10 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require("../models/user")
-/*router.get("/", (req,res) => {
-    res.send("dfdsf")
-})*/
-
+const authenticate = require("../middleware/authenticate")
 router.post("/create", (req,res) => {
     const userData = {
         name: req.body.name,
@@ -21,13 +18,15 @@ router.post("/create", (req,res) => {
             res.sendStatus(400)
         }
     }).then((token) => {
-        console.log(token)
         res.header({"x-auth":token}).send(user)
 
     }).catch((err) => {
-        console.log(err)
         res.status(400).send(err)
     })
+})
+
+router.get("/user",authenticate,(req,res) =>{
+    res.send(req.user)
 })
 
 router.post("/login", (req,res) => {

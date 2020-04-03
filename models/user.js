@@ -2,7 +2,7 @@
   const Schema = mongoose.Schema;
   const jwt = require('jsonwebtoken');
   const _ = require('lodash');
-  const bcrypt = require('bcryptjs');
+ // const bcrypt = require('bcryptjs');
 
   const userSchema = new Schema({
    name: { 
@@ -48,7 +48,6 @@ userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({_id:user._id.toHexString(),access}, 'shhhhh').toString();
     user.tokens.push({access,token})
     return user.save().then(()=>{
-        console.log(token)
         return token
     })
 }
@@ -76,6 +75,22 @@ userSchema.statics.findUserByCredentails = function(email,password){
       });
     }
   });
+}
+userSchema.statics.findUserByToken = function(token){
+    const User = this;
+    let decoded;
+    console.log(token)
+    try{
+        decoded = jwt.verify(token,'shhhhh')
+    } catch(e){
+        console.log(e)
+        return Promise.reject();
+    }
+    return User.findOne({
+        '_id': decoded._id,
+        'tokens.token':token,
+		'tokens.access':'auth'
+    })
 }
 const User = mongoose.model('User', userSchema);
 
