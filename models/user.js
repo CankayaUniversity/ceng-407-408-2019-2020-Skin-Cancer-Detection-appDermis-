@@ -68,7 +68,7 @@ userSchema.statics.findUserByCredentails = function(email,password){
             reject();
           }
         });*/
-        if(password === user.password){
+        if(password == user.password){
             resolve(user);
           } else {
             reject();
