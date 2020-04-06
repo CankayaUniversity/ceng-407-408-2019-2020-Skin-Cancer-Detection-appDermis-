@@ -9,6 +9,7 @@
     "dev": "concurrently --kill-others \"node node_modules/react-native/local-cli/cli.js start\" \"node server/index.js\""
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/masked-view": "^0.1.7",
     "@react-navigation/bottom-tabs": "^5.2.4",
     "@react-navigation/material-bottom-tabs": "^5.1.7",
@@ -38,6 +39,7 @@
     "react-navigation": "^4.3.5",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
