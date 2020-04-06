@@ -25,6 +25,7 @@
     "native-base": "^2.13.12",
     "nodemon": "^2.0.2",
     "react": "16.8.3",
+    "react-dom": "^16.13.1",
     "react-native": "0.59.8",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.0.5",
@@ -34,12 +35,16 @@
     "react-native-screens": "^2.4.0",
     "react-native-tab-view": "^2.13.0",
     "react-native-vector-icons": "latest",
-    "react-navigation": "^4.3.5"
+    "react-navigation": "^4.3.5",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "7.8.7",
     "@babel/runtime": "7.8.7",
     "babel-jest": "25.1.0",
+    "concurrently": "^5.1.0",
     "jest": "25.1.0",
     "metro-react-native-babel-preset": "0.58.0",
     "react-test-renderer": "16.8.3"

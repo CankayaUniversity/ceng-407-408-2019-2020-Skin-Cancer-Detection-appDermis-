@@ -19,7 +19,7 @@ export default class Router extends Component {
     render() {
         return (
             <NavigationContainer>
-                <Stack.Navigator  initialRouteName="Profile">
+                <Stack.Navigator  initialRouteName="Login">
                     <Stack.Screen options={{ headerShown: false }} name="Login" component={Login}/>
                     <Stack.Screen options={{ headerShown: false }} name="Register" component={Register}/>
                     <Stack.Screen 
