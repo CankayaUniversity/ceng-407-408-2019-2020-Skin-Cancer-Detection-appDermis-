@@ -6,12 +6,45 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     Image,
-    TouchableOpacity
+		Button,
+	  TouchableOpacity
 } from 'react-native'
-import RegisterForm from './RegisterForm'
+import { Field, reduxForm } from 'redux-form'
 
-export default class Register extends Component {
+import {connect} from 'react-redux'
+import {compose} from 'redux'
+
+import RegisterForm from './RegisterForm'
+import Input from '../components/Input'
+import RegisterButton from '../components/RegisterButton'
+import {createNewUser} from "../actions/auth.actions"
+
+class Register extends Component {
+	createNewUser = (values) =>{
+		this.props.dispatch(createNewUser(values))
+	}
+	onSubmit = (values) =>{
+		this.createNewUser(values)
+		console.log("onsubmit",values)
+	}
+    renderTextInput = (field) => {
+        const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, ...restInput}} = field;
+        return (
+            <View>
+              <Input
+                  onChangeText={onChange}
+                  maxLength={maxLength}
+                  placeholder={placeholder}
+                  keyboardType={keyboardType}
+                  secureTextEntry={secureTextEntry}
+                  label={label}
+                  {...restInput} />
+            {(touched && error) && <Text style={styles.errorText}>{error}</Text>}
+            </View>
+        );
+  }
     render() {
+			const { handleSubmit } = this.props
         return (
             <ScrollView>
                 <View style={styles.container}>
@@ -25,8 +58,32 @@ export default class Register extends Component {
                                 <Text style={styles.loginAreaDescription}>
                                     Lütfen hesabınızı oluşturun.
                                 </Text>
-                                <RegisterForm/>
+                               <Field
+                                    name="name"
+                                    placeholder="Ad"
+                                    component={this.renderTextInput} />
+																<Field
+                                    name="surname"
+                                    placeholder="Soyad"
+                                    component={this.renderTextInput} />																		
+                                <Field
+                                    name="email"
+                                    placeholder="Email"
+                                    component={this.renderTextInput} />
+                                <Field
+            												name="password"
+            												placeholder="Parola"
+            												secureTextEntry={true}
+            												component={this.renderTextInput} />
+														
+																<RegisterButton
+          												color={'#f1f1f1'}
+          												backgroundColor={'#8bad9d'}
+          												text={'Kaydol'}
+																	onPress={ handleSubmit(this.onSubmit) }
+        												/>
                             </View>
+														
                         </ScrollView>
                         <View style={styles.loginAlani}>
                             <Text style={styles.loginDesc}>Zaten hesabınız var mı?</Text>
@@ -41,12 +98,22 @@ export default class Register extends Component {
     }
 }
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fbdcce',
-        paddingVertical: 80
+        paddingVertical: 0
     },
+		button: {
+    	paddingVertical: 15,
+    	paddingHorizontal: 10,
+    	borderRadius: 3,
+    	alignItems: 'center'
+  	},
+  	text: {
+    	fontSize: 14
+  	},
     logo: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -78,5 +145,40 @@ const styles = StyleSheet.create({
     },
     loginText: {
         color: '#666'
-    }
+    },
+		errorText:{
+			color:'#8bad9d',
+			fontSize: 14,
+			paddingHorizontal:10,
+			paddingBottom: 5,
+		}
 })
+
+const validate = (values) => {
+    const errors = {};
+    if(!values.name) {
+        errors.name = "Ad kısmı boş bırakılamaz!"
+    }
+		if(!values.surname) {
+        errors.surname = "Soyad kısmı boş bırakılamaz!"
+    }
+    if(!values.email) {
+        errors.email = "Lütfen geçerli email adresi giriniz!"
+    }
+    if(!values.password) {
+        errors.password = "Parola kısmı boş bırakılamaz!"
+    }
+    return errors;
+};
+
+mapDispatchToProps = (dispatch) => ({
+	dispatch
+})
+export default compose(
+	connect(null,mapDispatchToProps),
+	reduxForm({
+  form: 'register',
+	validate
+})
+)(Register)
+
