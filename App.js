@@ -7,14 +7,21 @@ import { PersistGate } from 'redux-persist/integration/react'
 const persistStore = persist()
 export default class App extends Component {
     render() {
+
+        const {createUser} = this.props
+
+
         return (
             <Provider store={persistStore.store}>
                 <PersistGate loading={null} persistor={persistStore.persistor}>
-                    <Router/>
+                    <Router isLoggedin={this.props.createUser} />
                 </PersistGate>
             </Provider>
         );
     }
 }
+mapStateToProps = state => ({
+    createUser: state.authReducer.createUser
+})
 
-connect(null,null)(App)
+connect(mapStateToProps,null)(App)

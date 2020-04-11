@@ -1,4 +1,4 @@
-const BASE_URL = ""
+const BASE_URL = "http://192.168.0.20:3333"
 
 export const api = async (url, method, body = null, headers = {}) => {
 

@@ -17,6 +17,7 @@ import {compose} from 'redux'
 import RegisterForm from './RegisterForm'
 import Input from '../components/Input'
 import RegisterButton from '../components/RegisterButton'
+import Loader from "../components/Loader"
 import {createNewUser} from "../actions/auth.actions"
 
 class Register extends Component {
@@ -44,10 +45,11 @@ class Register extends Component {
         );
   }
     render() {
-			const { handleSubmit } = this.props
+			const { handleSubmit, createUser} = this.props
         return (
             <ScrollView>
                 <View style={styles.container}>
+                    {createUser.isLoading && <Loader/> }
                     <KeyboardAvoidingView behavior={'position'}>
                         <View style={styles.logo}>
                             <Image source={require('../assets/logo.png')}></Image>
@@ -171,11 +173,14 @@ const validate = (values) => {
     return errors;
 };
 
+mapStateToProps = (state) => ({
+    createUser: state.authReducer.createUser
+})
 mapDispatchToProps = (dispatch) => ({
 	dispatch
 })
 export default compose(
-	connect(null,mapDispatchToProps),
+	connect(mapStateToProps,mapDispatchToProps),
 	reduxForm({
   form: 'register',
 	validate

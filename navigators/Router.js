@@ -19,10 +19,13 @@ export default class Router extends Component {
     render() {
         return (
             <NavigationContainer>
-                <Stack.Navigator  initialRouteName="Register">
-                    <Stack.Screen options={{ headerShown: false }} name="Login" component={Login}/>
+                <Stack.Navigator initialRouteName="Register">
+                {this.props.isLoggedIn == false ? (
+                    <>
                     <Stack.Screen options={{ headerShown: false }} name="Register" component={Register}/>
-                    <Stack.Screen 
+                    <Stack.Screen options={{ headerShown: false }} name="Login" component={Login}/>
+                    </>
+                  ): (  <Stack.Screen 
                         options={{
                         headerTitle: '',
                         headerStyle: {
@@ -37,7 +40,7 @@ export default class Router extends Component {
                     />
                     ),*/
                  }}
-                    name="Profile" component={TabNavigator}/>
+                    name="Profile" component={TabNavigator}/>)}
                 </Stack.Navigator>
             </NavigationContainer>
         );

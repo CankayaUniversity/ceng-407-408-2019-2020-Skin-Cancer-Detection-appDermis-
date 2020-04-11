@@ -12,4 +12,3 @@ export default class ProfilePage extends Component {
         );
     }
 }
-
