@@ -40,7 +40,6 @@ export default class AlbumList extends Component {
             <Container>
                 <Content>
                     <List>
-                        //ListItemler veri tabanından gelecek
                         <ListItem thumbnail>
                             <Left>
                                 <Thumbnail square
