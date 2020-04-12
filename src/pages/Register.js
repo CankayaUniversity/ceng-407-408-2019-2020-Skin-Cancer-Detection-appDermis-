@@ -21,11 +21,23 @@ import Loader from "../components/Loader"
 import {createNewUser} from "../actions/auth.actions"
 
 class Register extends Component {
-	createNewUser = (values) =>{
+	createNewUser = async (values) =>{
+        try {
 		this.props.dispatch(createNewUser(values))
-	}
+          console.log(response);
+          if (!response.success) {
+              throw response;
+          }
+          else{
+            this.props.navigation.navigate('Login')
+          }
+      } catch (error) {
+          console.log(error)
+    }
+    }
 	onSubmit = (values) =>{
 		this.createNewUser(values)
+        this.props.navigation.navigate('Login')
 		console.log("onsubmit",values)
 	}
     renderTextInput = (field) => {

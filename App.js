@@ -1,27 +1,29 @@
-import React, {Component} from 'react'
-import Router from './navigators/Router';
-import {Provider,connect} from 'react-redux'
-import persist from "./src/config/store"
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow
+ */
+
+import React, {Component} from 'react';
+import {StyleSheet, View, StatusBar} from 'react-native';
+import {Provider} from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react'
 
-const persistStore = persist()
-export default class App extends Component {
-    render() {
+import Main from "./src/Main";
+import persist from "./src/config/store";
 
-        const {createUser} = this.props
+const persistStore = persist();
 
-
-        return (
-            <Provider store={persistStore.store}>
-                <PersistGate loading={null} persistor={persistStore.persistor}>
-                    <Router isLoggedin={this.props.createUser} />
-                </PersistGate>
-            </Provider>
-        );
-    }
+export default class App extends Component<Props> {
+  render() {
+    return (
+      <Provider store={persistStore.store}>
+        <PersistGate loading={null} persistor={persistStore.persistor}>
+          <Main />
+        </PersistGate>
+      </Provider>
+    );
+  }
 }
-mapStateToProps = state => ({
-    createUser: state.authReducer.createUser
-})
-
-connect(mapStateToProps,null)(App)

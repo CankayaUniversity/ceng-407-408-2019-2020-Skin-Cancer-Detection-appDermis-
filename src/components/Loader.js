@@ -12,7 +12,7 @@ export default class Loader extends Component {
 	render() {
 		return(
 			<View style={styles.container}>
-                <ActivityIndicator color="#ffffff" size="large" />
+        <ActivityIndicator color="#ffffff" size="large" />
 			</View>
 			)
 	}
