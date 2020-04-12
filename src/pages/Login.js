@@ -9,13 +9,57 @@ import {
     TouchableOpacity
 } from 'react-native'
 import LoginForm from './LoginForm'
+import Loader from "../components/Loader"
+import {compose} from "redux";
+import {connect} from "react-redux";
+import { Field, reduxForm } from 'redux-form';
+import {loginUser} from "../actions/auth.actions";
+import Input from '../components/Input'
+import RegisterButton from '../components/RegisterButton'
 
 
-export default class Login extends Component {
+class Login extends Component {
+      loginUser = async (values) => {
+      try {
+          const response =  await this.props.dispatch(loginUser(values));
+          console.log(response);
+          if (!response.success) {
+              throw response;
+          }
+          else{
+            this.props.navigation.navigate('Profile')
+          }
+      } catch (error) {
+          console.log(error)
+      }
+  }
+
+  onSubmit = (values) => {
+      this.loginUser(values);
+  }
+        renderTextInput = (field) => {
+        const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, ...restInput}} = field;
+        return (
+            <View>
+              <Input
+                  onChangeText={onChange}
+                  maxLength={maxLength}
+                  placeholder={placeholder}
+                  keyboardType={keyboardType}
+                  secureTextEntry={secureTextEntry}
+                  label={label}
+                  {...restInput} />
+            {(touched && error) && <Text style={styles.errorText}>{error}</Text>}
+            </View>
+        );
+  }
     render() {
+        			const { handleSubmit, createUser} = this.props
+
         return (
             <ScrollView>
                 <View style={styles.container}>
+                {(loginUser && loginUser.isLoading) && <Loader />}
                     <KeyboardAvoidingView behavior={'position'}>
                         <View style={styles.logo}>
                             <Image source={require('../assets/logo.png')}></Image>
@@ -26,8 +70,21 @@ export default class Login extends Component {
                                 <Text style={styles.loginAreaDescription}>
                                     Kullanıcı adı veya E-Mail adresinizle giriş yapınız.
                                 </Text>
-
-                                <LoginForm/>
+                                <Field
+                                    name="email"
+                                    placeholder="Email"
+                                    component={this.renderTextInput} />
+                                <Field
+            						name="password"
+            						placeholder="Parola"
+            						secureTextEntry={true}
+            						component={this.renderTextInput} />
+                                    <RegisterButton
+          												color={'#f1f1f1'}
+          												backgroundColor={'#8bad9d'}
+          												text={'Giriş Yap'}
+																	onPress={ handleSubmit(this.onSubmit) }
+        												/>								
                             </View>
                         </ScrollView>
                         <View style={styles.signupAlani}>
@@ -85,3 +142,29 @@ const styles = StyleSheet.create({
         color: '#666'
     }
 })
+
+const validate = (values) => {
+    const errors = {};
+    if(!values.email) {
+        errors.email = "Lütfen geçerli email adresi giriniz!"
+    }
+    if(!values.password) {
+        errors.password = "Parola kısmı boş bırakılamaz!"
+    }
+    return errors;
+};
+mapStateToProps = (state) => ({
+    loginUser: state.authReducer.loginUser
+})
+
+mapDispatchToProps = (dispatch) => ({
+    dispatch
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  reduxForm({
+    form: "login",
+    validate
+  })
+)(Login);

@@ -1,20 +1,66 @@
 import React, { Component } from 'react'
-import { StyleSheet, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, View, Text } from 'react-native'
+import PropTypes from "prop-types"
 
-export default class Input extends Component {
+const propTypes = {
+    mapElement: PropTypes.func,
+    onSubmitEditing: PropTypes.func,
+    onChangeText: PropTypes.func,
+    value: PropTypes.string,
+    placeholder: PropTypes.string,
+    maxLength: PropTypes.number,
+    keyboardType: PropTypes.string,
+    secureTextEntry: PropTypes.bool,
+    label: PropTypes.string
+};
+const defaultProps = {
+    mapElement: (n) => {},
+    onSubmitEditing: () => {},
+    onChangeText: () => {},
+    value: "",
+    placeholder: "",
+    maxLength: 200,
+    keyboardType: "default",
+    secureTextEntry: false,
+    label: ""
+};
+
+class Input extends Component {
   state = {
-    text: ''
+    value: ''
   }
+   componentDidMount() {
+        this.setState({
+            value: this.props.value
+        });
+    }
+
+    onChangeText = (value) => {
+        this.setState({
+            value
+        }, () => {
+            this.props.onChangeText(value);
+        })
+    }
 
   render () {
+    const {placeholder, secureTextEntry, keyboardType, maxLength, value, onChangeText, onSubmitEditing} = this.props;
     return (
       <View>
         <TextInput
+
           {...this.props}
           placeholderTextColor='#ddd'
-          style={styles.input}
-          value={this.state.text}
-          onChangeText={text => this.setState({ text })}
+          style={styles.inputBox}
+          value={this.state.value}
+          onChangeText={this.onChangeText}
+          style={styles.inputBox}
+          placeholder={placeholder}
+          secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
+          maxLength={maxLength}
+          returnKeyType="next"
+          onSubmitEditing={onSubmitEditing}
         />
       </View>
     )
@@ -34,3 +80,8 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   }
 })
+Input.defaultProps = defaultProps;
+
+Input.propTypes = propTypes;
+
+export default Input;

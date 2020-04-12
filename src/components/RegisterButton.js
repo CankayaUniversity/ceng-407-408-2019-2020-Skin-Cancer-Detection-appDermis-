@@ -3,11 +3,14 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types'
 
 export default class LoginButton extends Component {
+  constructor(props){
+    super(props)
+  }
   render () {
     const { color, backgroundColor } = this.props
 
     return (
-      <TouchableOpacity style={[styles.button, { backgroundColor }]}>
+      <TouchableOpacity onPress={this.props.onPress} style={[styles.button, { backgroundColor }]}>
         <Text style={[styles.text, { color }]}>{this.props.text}</Text>
       </TouchableOpacity>
     )
