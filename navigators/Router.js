@@ -11,6 +11,7 @@ import Albums from "../src/components/Albums";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
 import AlbumList from "../src/pages/AlbumList";
+import EditProfileForm from "../src/pages/EditProfileForm";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -19,12 +20,14 @@ export default class Router extends Component {
     render() {
         return (
             <NavigationContainer>
-                <Stack.Navigator headerMode={false} initialRouteName="Register">
+
+                <Stack.Navigator headerMode={false}  initialRouteName="Profile">
                     <Stack.Screen  name="Login" component={Login}/>
                     <Stack.Screen name="Register" component={Register}/>
                     <Stack.Screen name="Profile" component={TabNavigator}/>
                     <Stack.Screen name="AlbumList" component={AlbumList}/>
                     <Stack.Screen name="Albums" component={Albums}/>
+                    <Stack.Screen  name="EditProfileForm" component={EditProfileForm}/>
                 </Stack.Navigator>
             </NavigationContainer>
         );
