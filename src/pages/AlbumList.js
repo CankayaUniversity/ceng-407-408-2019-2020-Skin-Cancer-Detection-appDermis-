@@ -40,7 +40,6 @@ export default class AlbumList extends Component {
             <Container>
                 <Content>
                     <List>
-
                         <ListItem thumbnail>
                             <Left>
                                 <Thumbnail square
