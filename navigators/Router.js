@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Login from '../src/pages/Login';
 import React, {Component} from "react";
 import Register from "../src/pages/Register";
-import ProfilePage from "../src/pages/ProfilePage";
+import Profile from "../src/pages/Profile";
 import Camera from "../src/pages/Camera";
 import Analyze from "../src/pages/Analyze";
 import Results from "../src/pages/Results";
@@ -21,13 +21,13 @@ export default class Router extends Component {
         return (
             <NavigationContainer>
 
-                <Stack.Navigator headerMode={false}  initialRouteName="Profile">
-                    <Stack.Screen  name="Login" component={Login}/>
+                <Stack.Navigator headerMode={false}>
+                    <Stack.Screen name="Login" component={Login}/>
                     <Stack.Screen name="Register" component={Register}/>
                     <Stack.Screen name="Profile" component={TabNavigator}/>
                     <Stack.Screen name="AlbumList" component={AlbumList}/>
                     <Stack.Screen name="Albums" component={Albums}/>
-                    <Stack.Screen  name="EditProfileForm" component={EditProfileForm}/>
+                    <Stack.Screen name="EditProfileForm" component={EditProfileForm}/>
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -36,15 +36,15 @@ export default class Router extends Component {
 
 function TabNavigator() {
     return (
-        <Tab.Navigator screenOptions={{tabBarColor:'#8bad9d'}} initialRouteName="Profile"
+        <Tab.Navigator screenOptions={{tabBarColor: '#8bad9d'}} initialRouteName="Profile"
                        activeColor='#f1f1f1'
-                       barStyle={{ backgroundColor: '#8bad9d' }}>
+                       barStyle={{backgroundColor: '#8bad9d'}}>
             <Tab.Screen options={{
                 tabBarLabel: 'Profil',
                 tabBarIcon: ({color}) => (
                     <MaterialCommunityIcons name="account" color={color} size={26}/>
                 ),
-            }} name="Profile Page" component={ProfilePage}/>
+            }} name="Profile Page" component={Profile}/>
             <Tab.Screen options={{
                 tabBarLabel: 'Albümler',
                 tabBarIcon: ({color}) => (
@@ -56,7 +56,7 @@ function TabNavigator() {
                 tabBarIcon: ({color}) => (
                     <MaterialCommunityIcons name="camera" color={color} size={26}/>
                 ),
-            }} name="Camera"   component={Camera}/>
+            }} name="Camera" component={Camera}/>
             <Tab.Screen options={{
                 tabBarLabel: 'Sonuçlar',
                 tabBarIcon: ({color}) => (

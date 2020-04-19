@@ -66,6 +66,7 @@
 		A99259B320AF4EFAB05985C8 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 643C7165F0DA45418F31ABCF /* Octicons.ttf */; };
 		5E3F16196C7649B885E371CB /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88C83A482969411A894B14CF /* SimpleLineIcons.ttf */; };
 		9EBB619164AB49F89C3CB1F6 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 12FD080071854135B15B8214 /* Zocial.ttf */; };
+		D8A485B91A8442DB9900081F /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B66A0FAC56747A288FC3B18 /* libRNCAsyncStorage.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -405,6 +406,8 @@
 		643C7165F0DA45418F31ABCF /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		88C83A482969411A894B14CF /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		12FD080071854135B15B8214 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DCB5D4D431114774AC8C4444 /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; name = "RNCAsyncStorage.xcodeproj"; path = "../node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		1B66A0FAC56747A288FC3B18 /* libRNCAsyncStorage.a */ = {isa = PBXFileReference; name = "libRNCAsyncStorage.a"; path = "libRNCAsyncStorage.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -439,6 +442,7 @@
 				BB9E3BE7B8C345BFB7B91731 /* libRNCSafeAreaContext.a in Frameworks */,
 				B418DCB4F4394F12B4D02B47 /* libRNScreens.a in Frameworks */,
 				E941DFC7AF264C0893F65DDD /* libRNVectorIcons.a in Frameworks */,
+				D8A485B91A8442DB9900081F /* libRNCAsyncStorage.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,6 +642,7 @@
 				44E504AB873F43CEA69DFD3C /* SafeAreaView.xcodeproj */,
 				02070D3B364949F1B4DBAE08 /* RNScreens.xcodeproj */,
 				47B394204561432C9B4A13CB /* RNVectorIcons.xcodeproj */,
+				DCB5D4D431114774AC8C4444 /* RNCAsyncStorage.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1316,6 +1321,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1325,6 +1331,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
 					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\@react-native-community\async-storage\ios",
 				);
 			};
 			name = Debug;
@@ -1356,6 +1363,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1365,6 +1373,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
 					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\@react-native-community\async-storage\ios",
 				);
 			};
 			name = Release;
@@ -1393,6 +1402,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
 					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\@react-native-community\async-storage\ios",
 				);
 			};
 			name = Debug;
@@ -1420,6 +1430,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
 					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\@react-native-community\async-storage\ios",
 				);
 			};
 			name = Release;
@@ -1459,6 +1470,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1468,6 +1480,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
 					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\@react-native-community\async-storage\ios",
 				);
 			};
 			name = Debug;
@@ -1507,6 +1520,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1516,6 +1530,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
 					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\@react-native-community\async-storage\ios",
 				);
 			};
 			name = Release;
@@ -1554,6 +1569,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1563,6 +1579,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
 					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\@react-native-community\async-storage\ios",
 				);
 			};
 			name = Debug;
@@ -1601,6 +1618,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1610,6 +1628,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-safe-area-context\ios\SafeAreaView",
 					"$(SRCROOT)\..\node_modules\react-native-screens\ios",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\@react-native-community\async-storage\ios",
 				);
 			};
 			name = Release;
