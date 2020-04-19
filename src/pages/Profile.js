@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {Button, Card, CardItem, Container, List, ListItem, Content, Header, Text} from 'native-base';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {logoutUser} from "../actions/auth.actions";
-
+import {connect} from "react-redux";
 const styles = StyleSheet.create({
     header: {
         backgroundColor: '#8bad9d',
@@ -92,7 +92,7 @@ class Profile extends Component<{}> {
                 <Image style={styles.avatar}/>
                 <Content style={styles.body}>
                     <View style={styles.bodyContent}>
-                        <Text style={styles.name}> {userDetails ? userDetails.name : "İsim yok"}</Text>
+                        <Text style={styles.name}> Merhaba {userDetails ? userDetails.name : "İsim yok"}!</Text>
                         <Text style={styles.info}> {userDetails ? userDetails.email : "E-Mail yok"}</Text>
                     </View>
                     <Card style={{alignSelf: 'center', width: 350}}>

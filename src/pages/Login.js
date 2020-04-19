@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
-import {compose} from "redux";
-import {Field, reduxForm} from 'redux-form';
-import {loginUser} from "../actions/auth.actions";
-import Loader from "../components/Loader";
-import Input from "../components/Input";
+import React, {Component} from 'react' 
+import {connect} from "react-redux" 
+import {compose} from "redux" 
+import {Field, reduxForm} from 'redux-form' 
+import {loginUser} from "../actions/auth.actions" 
+import Loader from "../components/Loader" 
+import Input from "../components/Input" 
 import {
     StyleSheet,
     Text,
@@ -62,42 +62,40 @@ const styles = StyleSheet.create({
 
 
 class Login extends Component<{}> {
-
-
     loginUser = async (values) => {
         try {
-            const response = await this.props.dispatch(loginUser(values));
-            console.log(response);
+            const response = await this.props.dispatch(loginUser(values)) 
             if (!response.success) {
-                throw response;
+                throw response 
             }
-            this.props.navigation.navigate('Profile');
+            this.props.navigation.navigate('Profile') 
         } catch (error) {
-            let errorText;
-            if (error.message) {
+            let errorText 
+            /*if (error.message) {
                 errorText = error.message
             }
-            errorText = error.responseBody;
+            errorText = error.responseBody */
+            errorText = "Lütfen email adresinizi ve parolanızı kontrol ediniz."
             Alert.alert(
-                'Login Error!',
+                'Giriş Başarısız!',
                 errorText,
                 [
                     {
-                        text: 'Cancel',
+                        text: 'Tamam',
                         onPress: () => console.log('Cancel Pressed'),
                         style: 'cancel',
                     },
                 ]
-            );
+            ) 
         }
     }
 
     onSubmit = (values) => {
-        this.loginUser(values);
+        this.loginUser(values) 
     }
 
     renderTextInput = (field) => {
-        const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, ...restInput}} = field;
+        const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, ...restInput}} = field 
         return (
             <View>
                 <Input
@@ -110,16 +108,16 @@ class Login extends Component<{}> {
                     {...restInput} />
                 {(touched && error) && <Text style={styles.errorText}>{error}</Text>}
             </View>
-        );
+        ) 
     }
 
     render() {
-        const {handleSubmit, loginUser} = this.props;
-        console.log(loginUser);
+        const {handleSubmit, loginUser} = this.props 
+        console.log(loginUser) 
         return (
             <ScrollView>
+                {(loginUser && loginUser.isLoading) && <Loader/>}
                 <View style={styles.container}>
-                    {(loginUser && loginUser.isLoading) && <Loader/>}
                     <KeyboardAvoidingView behavior={'position'}>
                         <View style={styles.logo}>
                             <Image source={require('../assets/logo.png')}></Image>
@@ -161,15 +159,15 @@ class Login extends Component<{}> {
 }
 
 const validate = (values) => {
-    const errors = {};
+    const errors = {} 
     if (!values.email) {
         errors.email = "Lütfen geçerli email adresi giriniz!"
     }
     if (!values.password) {
         errors.password = "Parola kısmı boş bırakılamaz!"
     }
-    return errors;
-};
+    return errors 
+} 
 
 mapStateToProps = (state) => ({
     loginUser: state.authReducer.loginUser
@@ -177,7 +175,7 @@ mapStateToProps = (state) => ({
 
 mapDispatchToProps = (dispatch) => ({
     dispatch
-});
+}) 
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
@@ -185,4 +183,4 @@ export default compose(
         form: "login",
         validate
     })
-)(Login);
+)(Login) 

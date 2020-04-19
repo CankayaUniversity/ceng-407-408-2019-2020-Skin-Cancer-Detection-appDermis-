@@ -6,8 +6,9 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     Image,
-		Button,
-	  TouchableOpacity
+	Button,
+	TouchableOpacity,
+    Alert
 } from 'react-native'
 import { Field, reduxForm } from 'redux-form'
 
@@ -23,13 +24,32 @@ import {createNewUser} from "../actions/auth.actions"
 class Register extends Component {
 	createNewUser = async (values) =>{
         try {
-		this.props.dispatch(createNewUser(values))
-          console.log(response);
+		const response = await this.props.dispatch(createNewUser(values))
           if (!response.success) {
-              throw response;
+              Alert.alert(
+                'Hata!',
+                "Lütfen tekrar deneyiniz.",
+                [
+                    {
+                        text: 'Tamam',
+                        style: 'cancel',
+                    },
+                ]
+            )
+              throw response 
           }
           else{
-            this.props.navigation.navigate('Login')
+               Alert.alert(
+                'Kayıt Başarılı!',
+                'Kaydınız başarıyla oluşturuldu.',
+                [
+                    {
+                        text: 'Tamam',
+                        onPress: () => this.props.navigation.navigate('Login'),
+                        style: 'cancel',
+                    },
+                ]
+            ) 
           }
       } catch (error) {
           console.log(error)
@@ -37,11 +57,9 @@ class Register extends Component {
     }
 	onSubmit = (values) =>{
 		this.createNewUser(values)
-        this.props.navigation.navigate('Login')
-		console.log("onsubmit",values)
 	}
     renderTextInput = (field) => {
-        const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, ...restInput}} = field;
+        const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, ...restInput}} = field 
         return (
             <View>
               <Input
@@ -54,7 +72,7 @@ class Register extends Component {
                   {...restInput} />
             {(touched && error) && <Text style={styles.errorText}>{error}</Text>}
             </View>
-        );
+        ) 
   }
     render() {
 			const { handleSubmit, createUser} = this.props
@@ -169,7 +187,7 @@ const styles = StyleSheet.create({
 })
 
 const validate = (values) => {
-    const errors = {};
+    const errors = {} 
     if(!values.name) {
         errors.name = "Ad kısmı boş bırakılamaz!"
     }
@@ -182,8 +200,8 @@ const validate = (values) => {
     if(!values.password) {
         errors.password = "Parola kısmı boş bırakılamaz!"
     }
-    return errors;
-};
+    return errors 
+} 
 
 mapStateToProps = (state) => ({
     createUser: state.authReducer.createUser
