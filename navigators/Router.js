@@ -22,7 +22,7 @@ export default class Router extends Component {
             <NavigationContainer>
 
                 <Stack.Navigator headerMode={false}>
-                    <Stack.Screen name="Login" component={Login}/>
+                    <Stack.Screen name="Camera" component={Camera}/>
                     <Stack.Screen name="Register" component={Register}/>
                     <Stack.Screen name="Profile" component={TabNavigator}/>
                     <Stack.Screen name="AlbumList" component={AlbumList}/>
