@@ -103,17 +103,17 @@ class Register extends Component {
                                     placeholder="Email"
                                     component={this.renderTextInput} />
                                 <Field
-            												name="password"
-            												placeholder="Parola"
-            												secureTextEntry={true}
-            												component={this.renderTextInput} />
+            						name="password"
+            						placeholder="Parola"
+            						secureTextEntry={true}
+            						component={this.renderTextInput} />
 														
-																<RegisterButton
-          												color={'#f1f1f1'}
-          												backgroundColor={'#8bad9d'}
-          												text={'Kaydol'}
-																	onPress={ handleSubmit(this.onSubmit) }
-        												/>
+									<RegisterButton
+          								color={'#f1f1f1'}
+          								backgroundColor={'#8bad9d'}
+          								text={'Kaydol'}
+										onPress={ handleSubmit(this.onSubmit) }
+        							/>
                             </View>
 														
                         </ScrollView>
@@ -178,12 +178,12 @@ const styles = StyleSheet.create({
     loginText: {
         color: '#666'
     },
-		errorText:{
-			color:'#8bad9d',
-			fontSize: 14,
-			paddingHorizontal:10,
-			paddingBottom: 5,
-		}
+	errorText:{
+	    color:'#8bad9d',
+		fontSize: 14,
+		paddingHorizontal:10,
+		paddingBottom: 5,
+	}
 })
 
 const validate = (values) => {
