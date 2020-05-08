@@ -5,6 +5,7 @@
 * [node.js](https://nodejs.org/en/about/) - for the backend
 * [MongoDB Atlas](https://www.mongodb.com/cloud) - database for modern applications as a fully automated cloud service
 * [Express](https://expressjs.com/) - fast node.js network app framework 
+* [Redux](https://redux.js.org/) - for session management
 * [Native Base](https://nativebase.io/) - an open source framework to build React Native apps 
             
  ## Build Setup
