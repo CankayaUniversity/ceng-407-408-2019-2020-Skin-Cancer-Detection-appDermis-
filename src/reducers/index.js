@@ -2,12 +2,14 @@ import {combineReducers} from 'redux'
 
 import authReducer from "./auth.reducer.js"
 import userReducer from "./user.reducer.js"
+import photoReducer from "./photo.reducer.js"
 
 import {reducer as formReducer} from 'redux-form'
 
 const reducers = {
     authReducer,
     userReducer,
+    photoReducer,
     form: formReducer
 }
 

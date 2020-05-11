@@ -2,8 +2,35 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import { savePhoto } from '../actions/photo.actions'
+import { Field, reduxForm } from 'redux-form'
 
+import {connect} from 'react-redux'
+import {compose} from 'redux'
 class Camera extends Component {
+  	savePhoto = async (values) =>{
+      if (this.camera) {
+      const options = { quality: 0.5, base64: true };
+      const data = await this.camera.takePictureAsync(options);
+      console.log(JSON.parse(JSON.stringify(data.base64)));
+      let photo = data.base64
+      const eben = { 
+        img: 
+      { data: data.base64, 
+        contentType: "png"
+      }
+        }
+            try {
+		const response = await this.props.dispatch(savePhoto(eben))
+          if (!response.success) {
+              console.log("response",response)
+              throw response 
+          }
+      } catch (error) {
+          console.log("erdffddfdror",error)
+    }
+      }
+    }
   render() {
     return (
       <View style={styles.container}>
@@ -32,7 +59,7 @@ class Camera extends Component {
         <View style={styles.circle}></View>       
       </RNCamera>
         <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-          <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
+          <TouchableOpacity onPress={this.savePhoto.bind(this)} style={styles.capture}>
             <Text style={{ fontSize: 14 }}> Fotoğraf Çek! </Text>
           </TouchableOpacity>
         </View>
@@ -78,4 +105,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Camera;
+mapStateToProps = (state) => ({
+    savePhoto: state.photoReducer.savePhoto
+})
+mapDispatchToProps = (dispatch) => ({
+	dispatch
+})
+export default compose(
+	connect(mapStateToProps,mapDispatchToProps)
+)(Camera)
