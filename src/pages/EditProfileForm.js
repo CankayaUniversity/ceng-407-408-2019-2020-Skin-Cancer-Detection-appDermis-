@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import {Container, Content, DatePicker, Form, Header, Input, Item, Label, Picker} from 'native-base';
-import {Alert, StyleSheet, Text,AsyncStorage,AppRegistry} from 'react-native';
+import {Container, Content, DatePicker, Form, Header, Input, Item, Picker} from 'native-base';
+import {Alert, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-elements';
-import {logoutUser} from "../actions/auth.actions";
+import {updateUser} from "../actions/auth.actions";
 import {connect} from "react-redux";
+import {compose} from "redux";
+import {Field, reduxForm} from "redux-form";
+import Loader from "../components/Loader"
+import {fetchApi} from "../service/api";
 
-export default class EditProfileForm extends Component {
+class EditProfileForm extends Component {
     onValueChange2(value: string) {
         this.setState({
             selected2: value
@@ -17,87 +21,116 @@ export default class EditProfileForm extends Component {
             'Uyarı',
             'Bilgilerinizi kaydetmeden çıkmak istiyor musunuz?',
             [
-                {text: 'Tamam', onPress: () => this.props.navigation.goBack()},
+                {text: 'Çık', onPress: () => this.props.navigation.goBack()},
+                {
+                    text: 'İptal',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
             ],
             {cancelable: true},
         );
     }
-    state = {
-        name:'',
-        surname:'',
-        birthdate: '',
-        gender: '',
-        email: '',
-        profilePhoto: '',
+    updateUser = async (values) => {
+        try {
+            const response = await this.props.dispatch(updateUser(values))
+            if (!response.success) {
+                throw response
+            }
+            this.props.navigation.navigate('EditProfileForm')
+        } catch (error) {
+            let errorText
+            errorText = "Lütfen değişiklikleri kontrol ediniz."
+            Alert.alert(
+                'Düzenleme başarısız!',
+                errorText,
+                [
+                    {
+                        text: 'Tamam',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                    },
+                ]
+            )
+        }
     }
-    onPressSubmit = () => {
-        alert("KAydetdilfiii");
+    onSubmit = (values) => {
+        this.updateUser(values)
+    }
+
+    renderTextInput = (field) => {
+        const {meta: {touched, error}, label, maxLength,secureTextEntry, keyboardType, placeholder, input: {onChange, ...restInput}} = field
+        return (
+            <View>
+                <Input
+                    onChangeText={onChange}
+                    maxLength={maxLength}
+                    placeholder={placeholder}
+                    keyboardType={keyboardType}
+                    secureTextEntry={secureTextEntry}
+                    label={label}
+                    {...restInput} />
+                {(touched && error) && <Text>{error}</Text>}
+            </View>
+        )
+    }
+
+    constructor(props) {
+        super(props);
+        console.log(this);
+        const {getUser: {userDetails}} = this.props;
+        this.state = {
+            name: userDetails.name,
+            surname: userDetails.surname,
+            email: userDetails.email,
+            birthdate: userDetails.birthdate,
+            gender: userDetails.gender,
+        }
     }
 
     render() {
+        const {handleSubmit} = this.props;
         return (
-            <Container>
-                <Header style={{backgroundColor: '#8bad9d'}}>
-                    <Button buttonStyle={{marginLeft: 325, marginTop:10, borderRadius: 10, backgroundColor: '#e3c6bd'}}
+            <ScrollView>
+                <Container>
+                    {updateUser.isLoading && <Loader/>}
+                    <Header style={{backgroundColor: '#8bad9d'}}>
+                        <Button
+                            buttonStyle={{marginLeft: 325, marginTop: 10, borderRadius: 10, backgroundColor: '#e3c6bd'}}
                             onPress={this.goBack} title="Geri"/>
-                </Header>
-                <Content>
-                    <Form>
-                        <Item>
-                            <Text style={styles.textStyle}>E-Mail</Text>
-                            <Input/>
-                        </Item>
-                        <Item>
-                            <Text style={styles.textStyle}>Ad</Text>
-                            <Input/>
-                        </Item>
-                        <Item>
-                            <Text style={styles.textStyle}>Soyad</Text>
-                            <Input/>
-                        </Item>
-                        <Item>
-                            <Text style={styles.textStyle}>Doğum Tarihi</Text>
-                            <DatePicker defaultDate={new Date().getDate()}
-                                        locale={"en"}
-                                        timeZoneOffsetInMinutes={undefined}
-                                        modalTransparent={false}
-                                        animationType={"fade"}
-                                        androidMode={"default"}
-                                        placeHolderText="Seçiniz..."
-                                        textStyle={{color: '#8bad9d'}}
-                                        placeHolderTextStyle={{color: "#d3d3d3"}}
-                                        onDateChange={this.setDate}
-                                        disabled={false}/>
-                        </Item>
-                        <Item>
-                            <Text style={styles.textStyle}>Cinsiyet</Text>
-                            <Picker
-                                mode="dropdown"
-                                style={{width: undefined}}
-                                selectedValue={this.state.gender}
-                                onValueChange={this.onValueChange2.bind(this)}
-                            >
-                                <Picker.Item color="#d3d3d3" label="Seçiniz" value="key0"/>
-                                <Picker.Item label="Kadın" value="key1"/>
-                                <Picker.Item label="Erkek" value="key2"/>
-                                <Picker.Item label="Belirtmek istemiyorum." value="key3"/>
-                            </Picker>
-                        </Item>
+                    </Header>
+                    <Content>
+                        <View style={styles.loginArea}>
+                            <Text
+                                style={styles.textStyle}>E-Mail: </Text>
+                            <Field name="email" component={this.renderTextInput}
+                                   placeholder="Lütfen E-Mail adresinizi girin..."/>
+                            <Text style={styles.textStyle}>Ad: </Text>
+                            <Field component={this.renderTextInput} name="name"
+                                   placeholder="Lütfen adınızı girin..."/>
+                            <Text style={styles.textStyle}>Soyad: </Text>
+                            <Field component={this.renderTextInput} name="surname"
+                                   placeholder="Lütfen soyadınızı girin..."/>
+                            <Text style={styles.textStyle}>Soyad: </Text>
+                            <Field component={this.renderTextInput} name="password"
+                                   placeholder="Lütfen şifrenizi girin..."/>
+                            <Button
+                                buttonStyle={{
+                                    backgroundColor: '#e3c6bd',
+                                    marginTop: 10,
+                                    borderRadius: 10,
+                                    width: 150,
+                                    marginLeft: 160
+                                }}
+                                onPress={handleSubmit(this.onSubmit)}
+                                title="Kaydet"
+                            />
+                        </View>
 
-                    </Form>
-                    <Button
-                        buttonStyle={{
-                            backgroundColor: '#e3c6bd',
-                            marginTop: 10,
-                            borderRadius: 10,
-                            width: 150,
-                            marginLeft: 245
-                        }}
+                    </Content>
+                </Container>
+            </ScrollView>
 
-                        title="Kaydet"
-                    />
-                </Content>
-            </Container>
         );
     }
 };
@@ -108,5 +141,28 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: "bold",
         textDecorationLine: 'underline',
-    }
+    }, loginArea: {
+        padding:20,
+        flex:1,
+        marginHorizontal:20,
+        marginVertical:20,
+        backgroundColor: '#fff6ea',
+        borderRadius: 20,
+        elevation: 4
+    },
 })
+
+const mapStateToProps = (state) => ({
+    getUser: state.userReducer.getUser
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    dispatch
+});
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    reduxForm({
+        form: "editprofileform",
+
+    })
+)(EditProfileForm)

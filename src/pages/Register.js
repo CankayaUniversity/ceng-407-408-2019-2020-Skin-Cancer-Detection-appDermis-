@@ -1,85 +1,62 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import {
-    StyleSheet,
-    Text,
-    View,
+    Button,
+    Image,
     KeyboardAvoidingView,
     ScrollView,
-    Image,
-	Button,
-	TouchableOpacity,
-    Alert
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from 'react-native'
-import { Field, reduxForm } from 'redux-form'
+import axios from 'axios';
 
-import {connect} from 'react-redux'
-import {compose} from 'redux'
-
-import RegisterForm from './RegisterForm'
-import Input from '../components/Input'
-import RegisterButton from '../components/RegisterButton'
-import Loader from "../components/Loader"
-import {createNewUser} from "../actions/auth.actions"
 
 class Register extends Component {
-	createNewUser = async (values) =>{
+    state = {
+        name: '',
+        surname: '',
+        email: '',
+        password: ''
+    }
+    getCircularReplacer = () => {
+        const seen = new WeakSet();
+        return (key, value) => {
+            if (typeof value === "object" && value !== null) {
+                if (seen.has(value)) {
+                    return;
+                }
+                seen.add(value);
+            }
+            return value;
+        };
+    };
+    onSubmit = ()=> {
+        const newUser = {
+            name: this.state.name,
+            email: this.state.email,
+            surname: this.state.surname,
+            password: this.state.password
+        }
         try {
-		const response = await this.props.dispatch(createNewUser(values))
-          if (!response.success) {
-              Alert.alert(
-                'Hata!',
-                "Lütfen tekrar deneyiniz.",
-                [
-                    {
-                        text: 'Tamam',
-                        style: 'cancel',
-                    },
-                ]
-            )
-              throw response 
-          }
-          else{
-               Alert.alert(
-                'Kayıt Başarılı!',
-                'Kaydınız başarıyla oluşturuldu.',
-                [
-                    {
-                        text: 'Tamam',
-                        onPress: () => this.props.navigation.navigate('Login'),
-                        style: 'cancel',
-                    },
-                ]
-            ) 
-          }
-      } catch (error) {
-          console.log(error)
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            const body = JSON.stringify(newUser,this.getCircularReplacer());
+            const res = axios.post('/api/users/', body, config);
+            console.log(res);
+        } catch (err) {
+            console.error(err);
+        }
+
     }
-    }
-	onSubmit = (values) =>{
-		this.createNewUser(values)
-	}
-    renderTextInput = (field) => {
-        const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, ...restInput}} = field 
-        return (
-            <View>
-              <Input
-                  onChangeText={onChange}
-                  maxLength={maxLength}
-                  placeholder={placeholder}
-                  keyboardType={keyboardType}
-                  secureTextEntry={secureTextEntry}
-                  label={label}
-                  {...restInput} />
-            {(touched && error) && <Text style={styles.errorText}>{error}</Text>}
-            </View>
-        ) 
-  }
     render() {
-			const { handleSubmit, createUser} = this.props
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    {createUser.isLoading && <Loader/> }
                     <KeyboardAvoidingView behavior={'position'}>
                         <View style={styles.logo}>
                             <Image source={require('../assets/logo.png')}></Image>
@@ -90,36 +67,40 @@ class Register extends Component {
                                 <Text style={styles.loginAreaDescription}>
                                     Lütfen hesabınızı oluşturun.
                                 </Text>
-                               <Field
+                                <TextInput
+                                    value={this.state.name}
                                     name="name"
                                     placeholder="Ad"
-                                    component={this.renderTextInput} />
-																<Field
+                                    onChangeText={name => this.setState({name})}
+                                />
+                                <TextInput
+                                    value={this.state.surname}
                                     name="surname"
                                     placeholder="Soyad"
-                                    component={this.renderTextInput} />																		
-                                <Field
+                                    onChangeText={surname => this.setState({surname})}
+                                />
+                                <TextInput
+                                    value={this.state.email}
                                     name="email"
                                     placeholder="Email"
-                                    component={this.renderTextInput} />
-                                <Field
-            												name="password"
-            												placeholder="Parola"
-            												secureTextEntry={true}
-            												component={this.renderTextInput} />
-														
-																<RegisterButton
-          												color={'#f1f1f1'}
-          												backgroundColor={'#8bad9d'}
-          												text={'Kaydol'}
-																	onPress={ handleSubmit(this.onSubmit) }
-        												/>
+                                    onChangeText={email => this.setState({email})}
+                                />
+                                <TextInput
+                                    value={this.state.password}
+                                    name="password"
+                                    placeholder="Parola"
+                                    secureTextEntry={true}
+                                    onChangeText={password => this.setState({password})}
+                                />
+
+                                <Button color={'#f1f1f1'} backgroundColor={'#8bad9d'} title='Kaydol'
+                                        onPress={this.onSubmit}/>
                             </View>
-														
+
                         </ScrollView>
                         <View style={styles.loginAlani}>
                             <Text style={styles.loginDesc}>Zaten hesabınız var mı?</Text>
-                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Login')}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
                                 <Text style={styles.loginText}>Giriş Yapın</Text>
                             </TouchableOpacity>
                         </View>
@@ -137,15 +118,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#fbdcce',
         paddingVertical: 0
     },
-		button: {
-    	paddingVertical: 15,
-    	paddingHorizontal: 10,
-    	borderRadius: 3,
-    	alignItems: 'center'
-  	},
-  	text: {
-    	fontSize: 14
-  	},
+    button: {
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+        borderRadius: 3,
+        alignItems: 'center'
+    },
+    text: {
+        fontSize: 14
+    },
     logo: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -178,42 +159,12 @@ const styles = StyleSheet.create({
     loginText: {
         color: '#666'
     },
-		errorText:{
-			color:'#8bad9d',
-			fontSize: 14,
-			paddingHorizontal:10,
-			paddingBottom: 5,
-		}
-})
-
-const validate = (values) => {
-    const errors = {} 
-    if(!values.name) {
-        errors.name = "Ad kısmı boş bırakılamaz!"
+    errorText: {
+        color: '#8bad9d',
+        fontSize: 14,
+        paddingHorizontal: 10,
+        paddingBottom: 5,
     }
-		if(!values.surname) {
-        errors.surname = "Soyad kısmı boş bırakılamaz!"
-    }
-    if(!values.email) {
-        errors.email = "Lütfen geçerli email adresi giriniz!"
-    }
-    if(!values.password) {
-        errors.password = "Parola kısmı boş bırakılamaz!"
-    }
-    return errors 
-} 
-
-mapStateToProps = (state) => ({
-    createUser: state.authReducer.createUser
-})
-mapDispatchToProps = (dispatch) => ({
-	dispatch
-})
-export default compose(
-	connect(mapStateToProps,mapDispatchToProps),
-	reduxForm({
-  form: 'register',
-	validate
-})
-)(Register)
+});
+export default Register;
 

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
- import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {Button, Card, CardItem, Container, List, ListItem, Content, Header, Text} from 'native-base';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {logoutUser} from "../actions/auth.actions";
 import {connect} from "react-redux";
+
 const styles = StyleSheet.create({
     header: {
         backgroundColor: '#8bad9d',
@@ -57,15 +58,26 @@ const styles = StyleSheet.create({
     },
 });
 
-class Profile extends Component<{}> {
-
+class Profile extends Component {
     logoutUser = () => {
         this.props.dispatch(logoutUser());
         this.props.navigation.navigate('Login');
     }
 
-    render() {
+    constructor(props) {
+        super(props);
+        console.log(this);
         const {getUser: {userDetails}} = this.props;
+        this.state = {
+            name: userDetails.name,
+            surname: userDetails.surname,
+            email: userDetails.email,
+            birthdate: userDetails.birthdate,
+            gender: userDetails.gender,
+        }
+    }
+
+    render() {
         return (
             <Container>
                 <Header style={styles.header}>
@@ -92,17 +104,18 @@ class Profile extends Component<{}> {
                 <Image style={styles.avatar}/>
                 <Content style={styles.body}>
                     <View style={styles.bodyContent}>
-                        <Text style={styles.name}> Merhaba {userDetails ? userDetails.name : "İsim yok"}!</Text>
-                        <Text style={styles.info}> {userDetails ? userDetails.email : "E-Mail yok"}</Text>
+                        <Text style={styles.name}> Merhaba {this.state.name}</Text>
+                        <Text style={styles.info}>{this.state.email} </Text>
                     </View>
                     <Card style={{alignSelf: 'center', width: 350}}>
                         <CardItem bordered>
                             <MaterialCommunityIcons name="alpha-y-box" size={35} color='#e3c6bd'/>
-                            <Text>Yaş: </Text>
+                            <Text>Doğum
+                                Tarihi: {this.state.birthdate ? this.state.birthdate : ' '}</Text>
                         </CardItem>
                         <CardItem bordered>
                             <MaterialCommunityIcons name="alpha-c-box" size={35} color='#e3c6bd'/>
-                            <Text>Cinsiyet:</Text>
+                            <Text>Cinsiyet: {this.state.gender ? this.state.gender : ' '}</Text>
                         </CardItem>
                     </Card>
                 </Content>
@@ -112,12 +125,11 @@ class Profile extends Component<{}> {
 }
 
 
-mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
     getUser: state.userReducer.getUser
 });
 
-mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
     dispatch
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

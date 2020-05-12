@@ -7,7 +7,6 @@ import Profile from "../src/pages/Profile";
 import Camera from "../src/pages/Camera";
 import Analyze from "../src/pages/Analyze";
 import Results from "../src/pages/Results";
-import Albums from "../src/components/Albums";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
 import AlbumList from "../src/pages/AlbumList";
@@ -21,12 +20,11 @@ export default class Router extends Component {
         return (
             <NavigationContainer>
 
-                <Stack.Navigator headerMode={false}>
+                <Stack.Navigator headerMode={false} initialRouteName="Register">
                     <Stack.Screen name="Login" component={Login}/>
                     <Stack.Screen name="Register" component={Register}/>
                     <Stack.Screen name="Profile" component={TabNavigator}/>
                     <Stack.Screen name="AlbumList" component={AlbumList}/>
-                    <Stack.Screen name="Albums" component={Albums}/>
                     <Stack.Screen name="EditProfileForm" component={EditProfileForm}/>
                 </Stack.Navigator>
             </NavigationContainer>
