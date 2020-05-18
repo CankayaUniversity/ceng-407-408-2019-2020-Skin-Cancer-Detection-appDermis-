@@ -4,31 +4,33 @@ import { AppRegistry, StyleSheet, Text, TouchableOpacity, View } from 'react-nat
 import { RNCamera } from 'react-native-camera';
 import { savePhoto } from '../actions/photo.actions'
 import { Field, reduxForm } from 'redux-form'
-
 import {connect} from 'react-redux'
 import {compose} from 'redux'
 class Camera extends Component {
-  	savePhoto = async (values) =>{
+  	savePhoto = async () =>{
       if (this.camera) {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
-      console.log(JSON.parse(JSON.stringify(data.base64)));
-      let photo = data.base64
+      //console.log(JSON.parse(JSON.stringify(data.base64)));
+       let gonderilcekData = {
+          photo: data.base64  
+       }
       const eben = { 
         img: 
-      { data: data.base64, 
-        contentType: "png"
-      }
+        { data: data.base64, 
+          contentType: "png"
         }
-            try {
-		const response = await this.props.dispatch(savePhoto(eben))
+        }
+        this.send(gonderilcekData)
+           /*try {
+		        const response = await this.props.dispatch(savePhoto(eben))
           if (!response.success) {
               console.log("response",response)
               throw response 
           }
       } catch (error) {
           console.log("erdffddfdror",error)
-    }
+    }*/
       }
     }
   render() {
@@ -66,14 +68,15 @@ class Camera extends Component {
       </View>
     );
   }
-
-  takePicture = async () => {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options);
-      console.log(data.uri);
+   send = async (gonderilcekData) => {
+    const body = JSON.stringify(gonderilcekData)
+        fetch("http://192.168.0.20:3333/sendPhoto")
+            .then(response => response.json())
+            .then((responseJson) => {
+                console.log('getting data from fetch', responseJson)
+            })
+            .catch(error => console.log(error))
     }
-  };
 }
 
 const styles = StyleSheet.create({
