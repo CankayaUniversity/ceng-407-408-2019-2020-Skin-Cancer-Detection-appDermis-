@@ -13,7 +13,7 @@ class Camera extends Component {
       const data = await this.camera.takePictureAsync(options);
       //console.log(JSON.parse(JSON.stringify(data.base64)));
        let gonderilcekData = {
-          photo: data.base64  
+          photo: data.base64
        }
       const eben = { 
         img: 
@@ -21,6 +21,7 @@ class Camera extends Component {
           contentType: "png"
         }
         }
+        console.log(data)
         this.send(gonderilcekData)
            /*try {
 		        const response = await this.props.dispatch(savePhoto(eben))
@@ -69,8 +70,15 @@ class Camera extends Component {
     );
   }
    send = async (gonderilcekData) => {
+     console.log("asssa",gonderilcekData)
     const body = JSON.stringify(gonderilcekData)
-        fetch("http://192.168.0.20:3333/sendPhoto")
+        fetch("http://192.168.0.20:3333/sendPhoto", {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(gonderilcekData),
+        })
             .then(response => response.json())
             .then((responseJson) => {
                 console.log('getting data from fetch', responseJson)
