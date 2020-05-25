@@ -1,20 +1,13 @@
 import React, {Component} from 'react';
-import {Container, Content, DatePicker, Form, Header, Input, Item, Picker} from 'native-base';
-import {Alert, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Container, Content, DatePicker, Header} from 'native-base';
+import {Alert, ScrollView, StyleSheet, Text, TextInput, Picker, View} from 'react-native';
 import {Button} from 'react-native-elements';
-import {updateUser} from "../actions/auth.actions";
-import {connect} from "react-redux";
-import {compose} from "redux";
-import {Field, reduxForm} from "redux-form";
-import Loader from "../components/Loader"
-import {fetchApi} from "../service/api";
+import AsyncStorage from "@react-native-community/async-storage";
+import axios from "axios";
+import setAuthToken from "../utils/setAuthToken";
 
 class EditProfileForm extends Component {
-    onValueChange2(value: string) {
-        this.setState({
-            selected2: value
-        });
-    }
+
 
     goBack = () => {
         Alert.alert(
@@ -31,69 +24,111 @@ class EditProfileForm extends Component {
             {cancelable: true},
         );
     }
-    updateUser = async (values) => {
-        try {
-            const response = await this.props.dispatch(updateUser(values))
-            if (!response.success) {
-                throw response
-            }
-            this.props.navigation.navigate('EditProfileForm')
-        } catch (error) {
-            let errorText
-            errorText = "Lütfen değişiklikleri kontrol ediniz."
-            Alert.alert(
-                'Düzenleme başarısız!',
-                errorText,
-                [
-                    {
-                        text: 'Tamam',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                    },
-                ]
-            )
-        }
-    }
-    onSubmit = (values) => {
-        this.updateUser(values)
+
+    setDate(newDate) {
+        this.setState({birthdate: newDate.toString().substr(4, 12)});
     }
 
-    renderTextInput = (field) => {
-        const {meta: {touched, error}, label, maxLength,secureTextEntry, keyboardType, placeholder, input: {onChange, ...restInput}} = field
-        return (
-            <View>
-                <Input
-                    onChangeText={onChange}
-                    maxLength={maxLength}
-                    placeholder={placeholder}
-                    keyboardType={keyboardType}
-                    secureTextEntry={secureTextEntry}
-                    label={label}
-                    {...restInput} />
-                {(touched && error) && <Text>{error}</Text>}
-            </View>
-        )
+    updateUser = () => {
+        let updatedProfile = JSON.stringify({
+            gender: this.state.gender ? this.state.gender : this.state.initialGender,
+            birthdate: this.state.birthdate ? this.state.birthdate : this.state.initialBirthdate,
+        });
+        let updatedUser = JSON.stringify({
+            name: this.state.name ? this.state.name : this.state.initialName,
+            surname: this.state.surname ? this.state.surname : this.state.initialSurname,
+            email: this.state.email ? this.state.email : this.state.initialEmail,
+        });
+        try {
+            if (!this.state.initialGender | !this.state.initialBirthdate) {
+                Alert.alert(
+                    'Hata',
+                    'Lütfen cinsiyet ve doğum tarihi bilgilerinizi eksiksiz giriniz...',
+                    [
+                        {
+                            text: 'Tamam',
+                            onPress: () => console.log('Cancel Pressed'),
+                            style: 'cancel',
+                        },
+                    ],
+                    {cancelable: true},
+                );
+            }
+            let config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }
+            AsyncStorage.getItem('x-auth-token').then(r => setAuthToken(r));
+            const res = axios.post('http://192.168.1.106:3333/api/profile/', updatedProfile, config);
+            console.log(res);
+            const res2 = axios.post('http://192.168.1.106:3333/api/users/update', updatedUser, config);
+            console.log(res2);
+            Alert.alert(
+                'Bilgileriniz güncellendi!',
+                'Profil bilgileriniz güncellendi. Profil sayfasına yönlendiriliyorsunuz...',
+                [
+                    {text: 'Tamam', onPress: () =>this.props.navigation.navigate('Profile')},
+
+                ],
+                {cancelable: false},
+            );
+        } catch (err) {
+            console.log(err);
+        }
+
     }
+
 
     constructor(props) {
         super(props);
-        console.log(this);
-        const {getUser: {userDetails}} = this.props;
         this.state = {
-            name: userDetails.name,
-            surname: userDetails.surname,
-            email: userDetails.email,
-            birthdate: userDetails.birthdate,
-            gender: userDetails.gender,
+            name: '',
+            surname: '',
+            email: '',
+            birthdate: '',
+            gender: '',
+            initialName: '',
+            initialSurname: '',
+            initialEmail: '',
+            initialBirthdate: '',
+            initialGender: '',
         }
+        this.setUserProfile = this.setUserProfile.bind(this);
+        this.setUserInfo = this.setUserInfo.bind(this);
+        this.updateUser = this.updateUser.bind(this);
+        this.setDate = this.setDate.bind(this);
+
+    }
+
+    setUserProfile = (profile) => {
+        this.setState({
+            initialGender: profile.data.gender,
+            initialBirthdate: profile.data.birthdate,
+        });
+
+    };
+    setUserInfo = (user) => {
+        this.setState({
+            initialName: user.data.name,
+            initialSurname: user.data.surname,
+            initialEmail: user.data.email,
+        });
+
+    };
+
+
+    componentDidMount(): void {
+        AsyncStorage.getItem('x-auth-token').then(x => axios.get('http://192.168.1.106:3333/api/profile/me/', x)
+            .then(r => this.setUserProfile(r))
+        ).then(x => axios.get('http://192.168.1.106:3333/api/auth/', x).then(r => this.setUserInfo(r)));
     }
 
     render() {
-        const {handleSubmit} = this.props;
+
         return (
             <ScrollView>
                 <Container>
-                    {updateUser.isLoading && <Loader/>}
                     <Header style={{backgroundColor: '#8bad9d'}}>
                         <Button
                             buttonStyle={{marginLeft: 325, marginTop: 10, borderRadius: 10, backgroundColor: '#e3c6bd'}}
@@ -101,19 +136,43 @@ class EditProfileForm extends Component {
                     </Header>
                     <Content>
                         <View style={styles.loginArea}>
-                            <Text
-                                style={styles.textStyle}>E-Mail: </Text>
-                            <Field name="email" component={this.renderTextInput}
-                                   placeholder="Lütfen E-Mail adresinizi girin..."/>
+                            <Text style={styles.textStyle}>E-Mail: </Text>
+                            <TextInput placeholder={this.state.initialEmail} onChangeText={text => {
+                                this.setState({email: text})
+                            }}/>
                             <Text style={styles.textStyle}>Ad: </Text>
-                            <Field component={this.renderTextInput} name="name"
-                                   placeholder="Lütfen adınızı girin..."/>
+                            <TextInput placeholder={this.state.initialName} onChangeText={text => {
+                                this.setState({name: text})
+                            }}/>
                             <Text style={styles.textStyle}>Soyad: </Text>
-                            <Field component={this.renderTextInput} name="surname"
-                                   placeholder="Lütfen soyadınızı girin..."/>
-                            <Text style={styles.textStyle}>Soyad: </Text>
-                            <Field component={this.renderTextInput} name="password"
-                                   placeholder="Lütfen şifrenizi girin..."/>
+                            <TextInput placeholder={this.state.initialSurname} onChangeText={text => {
+                                this.setState({surname: text})
+                            }}/>
+                            <Text style={styles.textStyle}>Cinsiyet: </Text>
+                            <Picker
+                                selectedValue={this.state.initialGender}
+                                style={{height: 50, width: 200}}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    this.setState({gender: itemValue})
+                                }>
+                                <Picker.Item label="Kadın" value="female"/>
+                                <Picker.Item label="Erkek" value="male"/>
+                                <Picker.Item label="Diğer" value="other"/>
+                            </Picker>
+                            <Text style={styles.textStyle}>Doğum Tarihi: </Text>
+                            <DatePicker
+                                defaultDate={this.state.initialBirthdate}
+                                locale={"en"}
+                                timeZoneOffsetInMinutes={undefined}
+                                modalTransparent={false}
+                                animationType={"fade"}
+                                androidMode={"default"}
+                                placeHolderText="Doğum tarihinizi seçiniz..."
+                                textStyle={{color: "green"}}
+                                placeHolderTextStyle={{color: "#d3d3d3"}}
+                                onDateChange={this.setDate}
+                                disabled={false}
+                            />
                             <Button
                                 buttonStyle={{
                                     backgroundColor: '#e3c6bd',
@@ -122,7 +181,7 @@ class EditProfileForm extends Component {
                                     width: 150,
                                     marginLeft: 160
                                 }}
-                                onPress={handleSubmit(this.onSubmit)}
+                                onPress={this.updateUser}
                                 title="Kaydet"
                             />
                         </View>
@@ -142,27 +201,15 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textDecorationLine: 'underline',
     }, loginArea: {
-        padding:20,
-        flex:1,
-        marginHorizontal:20,
-        marginVertical:20,
+        padding: 20,
+        flex: 1,
+        marginHorizontal: 20,
+        marginVertical: 20,
         backgroundColor: '#fff6ea',
         borderRadius: 20,
         elevation: 4
     },
 })
 
-const mapStateToProps = (state) => ({
-    getUser: state.userReducer.getUser
-});
 
-const mapDispatchToProps = (dispatch) => ({
-    dispatch
-});
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    reduxForm({
-        form: "editprofileform",
-
-    })
-)(EditProfileForm)
+export default EditProfileForm;

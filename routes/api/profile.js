@@ -10,7 +10,7 @@ const {check, validationResult} = require('express-validator/check');
 // @access Private
 router.get('/me', auth, async (req, res) => {
     try {
-        const profile = await Profile.findOne({user: req.user.id}).populate('user', ['name', 'avatar']);
+        const profile = await Profile.findOne({user: req.user.id});
         if (!profile) {
             return res.status(400).json({msg: 'There is no profile for that user.'});
         }
@@ -71,7 +71,7 @@ router.delete('/', auth, async (req, res) => {
         await Profile.findOneAndRemove({user: req.user.id});
         //Remove user
         await User.findOneAndRemove({_id: req.user.id});
-        res.json({msg:'User removed.'});
+        res.json({msg: 'User removed.'});
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');

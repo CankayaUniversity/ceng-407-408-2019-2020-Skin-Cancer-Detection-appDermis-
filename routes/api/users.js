@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const gravatar = require('gravatar');
 const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
+const auth = require('../../middleware/authenticate');
 
 // @route  POST api/users
 // @desc   Register user
@@ -49,12 +50,31 @@ router.post('/', [
             if (err) throw err;
             res.json({token});
         });
-        res.send('User registered.');
-
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
+
+});
+router.post('/update', auth, async (req, res) => {
+    console.log("this is req",req.user);
+    const {name, surname, email} = req.body;
+    console.log(name,surname,email);
+    //build user object
+    const userFields = {};
+    if (name) userFields.name = name;
+    if (surname) userFields.surname = surname;
+    if (email) userFields.email = email;
+    try {
+        let userUp = await User.findOneAndUpdate({_id: req.user.id}, {$set: userFields},{new: true});
+        return res.json(userUp);
+        console.log('User updated');
+
+    } catch (e) {
+        console.error(e.message);
+        res.status(500).send('Server error');
+    }
+
 
 });
 module.exports = router;

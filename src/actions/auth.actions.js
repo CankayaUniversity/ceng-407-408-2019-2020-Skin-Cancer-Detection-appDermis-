@@ -1,37 +1,47 @@
 import {fetchApi} from "../service/api"
 import {Dimensions} from "react-native";
+import axios from 'axios';
+import {
+    REGISTER_SUCCESS,
+    REGISTER_FAIL, REGISTER_LOADING, AUTH_USER_SUCCESS, GET_USER_SUCCESS
+} from "./types";
 
-export const createNewUser = (payload) => {
+ //this.props.navigation.navigate('Login');
+
+export const register = (newUser) => {
+    let config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
     return async (dispatch) => {
-
         try {
             dispatch({
-                type: "CREATE_USER_LOADING"
+                type: REGISTER_LOADING
             })
-            const response = await fetchApi("/user/create", "POST", payload, 200)
+            let res = axios.post('http://192.168.1.106:3333/api/users/', newUser, config);
 
-            if (response.success) {
+            if (res.success) {
                 dispatch({
-                    type: "CREAT_USER_SUCCESS"
+                    type: REGISTER_SUCCESS
                 })
                 dispatch({
-                    type: "AUTH_USER_SUCCESS",
-                    token: response.token
+                    type: AUTH_USER_SUCCESS,
+                    token: res.token
                 })
                 dispatch({
-                    type: "GET_USER_SUCCESS",
-                    payload: response.responseBody
+                    type: GET_USER_SUCCESS,
+                    payload: res.data
                 })
 
-                return response
+                return res
             } else {
-                throw response
+                throw res
             }
 
         } catch (error) {
             dispatch({
-                type: "CREAT_USER_FAIL",
-                payload: error.responseBody
+                type: REGISTER_FAIL
             })
             return error
         }

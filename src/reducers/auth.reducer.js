@@ -1,4 +1,13 @@
 import {combineReducers} from 'redux'
+import {REGISTER_SUCCESS, REGISTER_FAIL} from "../actions/types";
+import {AsyncStorage} from "react-native";
+
+const initialState = {
+    token: AsyncStorage.getItem('token'),
+    isAuthenticated: null,
+    loading: true,
+    user: null,
+}
 
 const authData = (state = {}, action) => {
     switch (action.type) {
@@ -110,9 +119,26 @@ const loginUser = (state = {}, action) => {
     }
 }
 
-export default combineReducers({
-    createUser,
-    loginUser,
-    updateUser,
-    authData
-})
+export default async function (state = initialState, action) {
+    const {type, payload} = action;
+    switch (type) {
+        case REGISTER_SUCCESS:
+            await AsyncStorage.setItem('token', payload.token);
+            return {
+                ...state,
+                ...payload,
+                isAuthenticated: true,
+                loading: false,
+            }
+        case REGISTER_FAIL:
+            await AsyncStorage.removeItem('token');
+            return {
+                ...state,
+                token: null,
+                isAuthenticated: false,
+                loading: false,
+            }
+        default:
+            return state
+    }
+}
