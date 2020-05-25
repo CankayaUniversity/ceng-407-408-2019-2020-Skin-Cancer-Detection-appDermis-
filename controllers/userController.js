@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {User} = require("../models/user")
+const {User} = require("../models/User")
 const authenticate = require("../middleware/authenticate")
 router.post("/create", (req, res) => {
     const userData = {
@@ -35,7 +35,24 @@ router.post("/login", (req, res) => {
         })
     })
 })
-
+router.post('/update',authenticate, (req, res) => {
+    console.log(req.body.id);
+    User.findByIdAndUpdate(req.body.id, {
+            $set: {
+                name: req.body.name,
+                surname: req.body.surname,
+                email: req.body.email,
+                password: req.body.password,
+            }
+        }, function (err, result) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send(result);
+            }
+        }
+    );
+});
 router.delete("/logout", authenticate, (req, res) => {
     req.user.removeToken(req.token).then(() => {
         res.status(200).send("user logged out")
