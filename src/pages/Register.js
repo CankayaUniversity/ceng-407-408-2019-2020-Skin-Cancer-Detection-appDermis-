@@ -1,219 +1,202 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
-    StyleSheet,
-    Text,
-    View,
-    KeyboardAvoidingView,
-    ScrollView,
-    Image,
-	Button,
-	TouchableOpacity,
-    Alert
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native'
-import { Field, reduxForm } from 'redux-form'
-
-import {connect} from 'react-redux'
-import {compose} from 'redux'
-
-import RegisterForm from './RegisterForm'
-import Input from '../components/Input'
+import axios from 'axios'
 import RegisterButton from '../components/RegisterButton'
-import Loader from "../components/Loader"
-import {createNewUser} from "../actions/auth.actions"
+import AsyncStorage from '@react-native-community/async-storage'
+import setAuthToken from '../utils/setAuthToken'
 
 class Register extends Component {
-	createNewUser = async (values) =>{
-        try {
-		const response = await this.props.dispatch(createNewUser(values))
-          if (!response.success) {
-              Alert.alert(
-                'Hata!',
-                "Lütfen tekrar deneyiniz.",
-                [
-                    {
-                        text: 'Tamam',
-                        style: 'cancel',
-                    },
-                ]
-            )
-              throw response 
-          }
-          else{
-               Alert.alert(
-                'Kayıt Başarılı!',
-                'Kaydınız başarıyla oluşturuldu.',
-                [
-                    {
-                        text: 'Tamam',
-                        onPress: () => this.props.navigation.navigate('Login'),
-                        style: 'cancel',
-                    },
-                ]
-            ) 
-          }
-      } catch (error) {
-          console.log(error)
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      name: '',
+      surname: '',
+      email: '',
+      password: '',
+      password2: ''
     }
-    }
-	onSubmit = (values) =>{
-		this.createNewUser(values)
-	}
-    renderTextInput = (field) => {
-        const {meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, ...restInput}} = field 
-        return (
-            <View>
-              <Input
-                  onChangeText={onChange}
-                  maxLength={maxLength}
-                  placeholder={placeholder}
-                  keyboardType={keyboardType}
-                  secureTextEntry={secureTextEntry}
-                  label={label}
-                  {...restInput} />
-            {(touched && error) && <Text style={styles.errorText}>{error}</Text>}
-            </View>
-        ) 
   }
-    render() {
-			const { handleSubmit, createUser} = this.props
-        return (
-            <ScrollView>
-                <View style={styles.container}>
-                    {createUser.isLoading && <Loader/> }
-                    <KeyboardAvoidingView behavior={'position'}>
-                        <View style={styles.logo}>
-                            <Image source={require('../assets/logo.png')}></Image>
-                        </View>
-                        <ScrollView>
-                            <View style={styles.loginArea}>
-                                <Text style={styles.loginAreaTitle}>Kaydol</Text>
-                                <Text style={styles.loginAreaDescription}>
-                                    Lütfen hesabınızı oluşturun.
-                                </Text>
-                               <Field
-                                    name="name"
-                                    placeholder="Ad"
-                                    component={this.renderTextInput} />
-																<Field
-                                    name="surname"
-                                    placeholder="Soyad"
-                                    component={this.renderTextInput} />																		
-                                <Field
-                                    name="email"
-                                    placeholder="Email"
-                                    component={this.renderTextInput} />
-                                <Field
-            						name="password"
-            						placeholder="Parola"
-            						secureTextEntry={true}
-            						component={this.renderTextInput} />
-														
-									<RegisterButton
-          								color={'#f1f1f1'}
-          								backgroundColor={'#8bad9d'}
-          								text={'Kaydol'}
-										onPress={ handleSubmit(this.onSubmit) }
-        							/>
-                            </View>
-														
-                        </ScrollView>
-                        <View style={styles.loginAlani}>
-                            <Text style={styles.loginDesc}>Zaten hesabınız var mı?</Text>
-                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Login')}>
-                                <Text style={styles.loginText}>Giriş Yapın</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </KeyboardAvoidingView>
-                </View>
-            </ScrollView>
-        )
+
+  onSubmit = event => {
+    if (this.state.password !== this.state.password2) {
+      Alert.alert(
+        'Parolalar Eşleşmiyor',
+        'Girdiğiniz parolalar eşleşmiyor, lütfen tekrar deneyiniz.',
+        [
+          {
+            text: 'Tamam',
+            onPress: () => console.log('Ok Pressed')
+          }
+        ],
+        { cancelable: true }
+      )
+    } else {
+      event.preventDefault()
+      let newUser = JSON.stringify({
+        name: this.state.name,
+        surname: this.state.surname,
+        password: this.state.password,
+        email: this.state.email
+      })
+
+      try {
+        let config = {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+        axios
+          .post('http://192.168.1.106:3333/api/users/', newUser, config)
+          .then(r => r.data)
+          .then(data => {
+            console.log(data)
+            try {
+              AsyncStorage.setItem('x-auth-token', data.token)
+            } catch (err) {
+              console.log(err)
+            }
+          })
+
+        this.props.navigation.navigate('Login')
+      } catch (err) {
+        console.error(err)
+      }
     }
+  }
+
+  render () {
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          <KeyboardAvoidingView behavior={'position'}>
+            <View style={styles.logo}>
+              <Image source={require('../assets/logo.png')}></Image>
+            </View>
+
+            <View style={styles.loginArea}>
+              <Text style={styles.loginAreaTitle}>Kaydol</Text>
+              <Text style={styles.loginAreaDescription}>
+                Lütfen hesabınızı oluşturun.
+              </Text>
+              <TextInput
+                value={this.state.name}
+                name='name'
+                placeholder='Ad'
+                onChangeText={name => this.setState({ name })}
+              />
+              <TextInput
+                value={this.state.surname}
+                name='surname'
+                placeholder='Soyad'
+                onChangeText={surname => this.setState({ surname })}
+              />
+              <TextInput
+                value={this.state.email}
+                name='email'
+                placeholder='Email'
+                onChangeText={email => this.setState({ email })}
+              />
+              <TextInput
+                value={this.state.password}
+                name='password'
+                placeholder='Parola'
+                secureTextEntry={true}
+                onChangeText={password => this.setState({ password })}
+              />
+              <TextInput
+                value={this.state.password2}
+                name='password2'
+                placeholder='Parolayı tekrar giriniz'
+                secureTextEntry={true}
+                onChangeText={password2 => this.setState({ password2 })}
+              />
+              <RegisterButton
+                color={'#f1f1f1'}
+                backgroundColor={'#8bad9d'}
+                text={'Kaydol'}
+                onPress={this.onSubmit}
+              />
+              <View style={styles.loginAlani}>
+                <Text style={styles.loginDesc}>Zaten hesabınız var mı?</Text>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('Login')}
+                >
+                  <Text style={styles.loginText}>Giriş Yapın</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </KeyboardAvoidingView>
+        </View>
+      </ScrollView>
+    )
+  }
 }
 
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fbdcce',
-        paddingVertical: 0
-    },
-		button: {
-    	paddingVertical: 15,
-    	paddingHorizontal: 10,
-    	borderRadius: 3,
-    	alignItems: 'center'
-  	},
-  	text: {
-    	fontSize: 14
-  	},
-    logo: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    loginArea: {
-        marginHorizontal: 40,
-        marginVertical: 40,
-        backgroundColor: '#fff',
-        padding: 20,
-        borderRadius: 20,
-        elevation: 4
-    },
-    loginAreaTitle: {
-        padding: 20,
-        fontSize: 20,
-        textAlign: 'center'
-    },
-    loginAreaDescription: {
-        fontSize: 11,
-        color: '#7e868f',
-        marginVertical: 10,
-        textAlign: 'center'
-    },
-    loginAlani: {
-        alignItems: 'center'
-    },
-    loginDesc: {
-        color: '#999'
-    },
-    loginText: {
-        color: '#666'
-    },
-	errorText:{
-	    color:'#8bad9d',
-		fontSize: 14,
-		paddingHorizontal:10,
-		paddingBottom: 5,
-	}
+  container: {
+    flex: 1,
+    backgroundColor: '#fbdcce',
+    paddingVertical: 0
+  },
+  button: {
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 3,
+    alignItems: 'center'
+  },
+  text: {
+    fontSize: 14
+  },
+  logo: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  loginArea: {
+    marginHorizontal: 40,
+    marginVertical: 40,
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 20,
+    elevation: 4
+  },
+  loginAreaTitle: {
+    padding: 20,
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  loginAreaDescription: {
+    fontSize: 11,
+    color: '#7e868f',
+    marginVertical: 10,
+    textAlign: 'center'
+  },
+  loginAlani: {
+    alignItems: 'center'
+  },
+  loginDesc: {
+    color: '#999'
+  },
+  loginText: {
+    color: '#666'
+  },
+
+  errorText: {
+    color: '#8bad9d',
+    fontSize: 14,
+    paddingHorizontal: 10,
+    paddingBottom: 5
+  }
 })
 
-const validate = (values) => {
-    const errors = {} 
-    if(!values.name) {
-        errors.name = "Ad kısmı boş bırakılamaz!"
-    }
-		if(!values.surname) {
-        errors.surname = "Soyad kısmı boş bırakılamaz!"
-    }
-    if(!values.email) {
-        errors.email = "Lütfen geçerli email adresi giriniz!"
-    }
-    if(!values.password) {
-        errors.password = "Parola kısmı boş bırakılamaz!"
-    }
-    return errors 
-} 
-
-mapStateToProps = (state) => ({
-    createUser: state.authReducer.createUser
-})
-mapDispatchToProps = (dispatch) => ({
-	dispatch
-})
-export default compose(
-	connect(mapStateToProps,mapDispatchToProps),
-	reduxForm({
-  form: 'register',
-	validate
-})
-)(Register)
-
+export default Register

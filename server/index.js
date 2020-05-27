@@ -1,19 +1,12 @@
 const express = require('express');
 const app = express();
-const {mongoose} = require('../db/db')
+const connectDB = require('../db/db')
 const userController = require('../controllers/userController')
 const photoController = require('../controllers/photoController')
 let {PythonShell} = require('python-shell')
 const bodyParser = require('body-parser')
 const port = 3333
-const path = 'C:\\Users\\HP\\ceng-407-408-2019-2020-Skin-Cancer-Detection-appDermis-\\server\\ml.py'
-app.use(bodyParser.json({limit: '100mb', extended: true}))
-app.use(bodyParser.urlencoded({limit: '100mb', extended: true}))
-
-app.use ("/user",userController)
-app.use("/photo",photoController)
-app.use ('/sendPhoto', callFunc); 
-  
+const path = 'C:\\Users\\HP\\ceng-407-408-2019-2020-Skin-Cancer-Detection-appDermis-\\server\\ml.py' 
 async function callFunc(req, res) {  
     return new Promise(function (resolve, reject) {
       let sonuc
@@ -38,6 +31,24 @@ async function callFunc(req, res) {
     res.send(results);
   });*/
 } 
-app.listen(port,() => {
-console.log('💥 Server is running on port',port)
+//Connect database
+connectDB();
+
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+
+//app.use("/user", userController);
+
+//Init middleware
+app.use(express.json({extended: false}));
+app.use(bodyParser.json({limit: '100mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '100mb', extended: true}))
+app.use ('/sendPhoto', callFunc); 
+app.use('/api/users', require('../routes/api/users'));
+app.use('/api/auth', require('../routes/api/auth'));
+app.use('/api/profile', require('../routes/api/profile'));
+app.use('/api/album', require('../routes/api/album'));
+
+app.listen(port, () => {
+    console.log('💥 Server is running on port', port)
 });

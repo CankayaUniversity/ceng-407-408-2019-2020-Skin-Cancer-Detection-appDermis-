@@ -1,29 +1,81 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import Login from './src/pages/Login'
+import Register from "./src/pages/Register";
+import Profile from "./src/pages/Profile";
+import Camera from "./src/pages/Camera";
+import Results from "./src/pages/Results";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
+import AlbumList from "./src/pages/AlbumList";
+import EditProfileForm from "./src/pages/EditProfileForm";
+import React, {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 
-import React, {Component} from 'react';
-import {StyleSheet, View, StatusBar} from 'react-native';
-import {Provider} from "react-redux";
-import { PersistGate } from 'redux-persist/integration/react'
+const Stack = createStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
-import Main from "./src/Main";
-import persist from "./src/config/store";
 
-const persistStore = persist();
+const App = ({navigation}) => {
+    const [isloggedin, setLogged] = useState(null)
 
-export default class App extends Component<Props> {
-  render() {
+    const detectLogin = async () => {
+        const token = await AsyncStorage.getItem('token')
+        if (token) {
+            setLogged(true)
+        } else {
+            setLogged(false)
+        }
+    }
+    useEffect(() => {
+        detectLogin()
+    }, [])
     return (
-      <Provider store={persistStore.store}>
-        <PersistGate loading={null} persistor={persistStore.persistor}>
-          <Main />
-        </PersistGate>
-      </Provider>
+        <NavigationContainer>
+
+            <Stack.Navigator headerMode={false} >
+                <Stack.Screen name="Login" component={Login}/>
+                <Stack.Screen name="Register" component={Register}/>
+                <Stack.Screen name="Profile" component={TabNavigator}/>
+                <Stack.Screen name="AlbumList" component={AlbumList}/>
+                <Stack.Screen name="EditProfileForm" component={EditProfileForm}/>
+            </Stack.Navigator>
+        </NavigationContainer>
     );
-  }
+
 }
+
+function TabNavigator() {
+    return (
+        <Tab.Navigator screenOptions={{tabBarColor: '#8bad9d'}} initialRouteName="Profile"
+                       activeColor='#f1f1f1'
+                       barStyle={{backgroundColor: '#8bad9d'}}>
+            <Tab.Screen options={{
+                tabBarLabel: 'Profil',
+                tabBarIcon: ({color}) => (
+                    <MaterialCommunityIcons name="account" color={color} size={26}/>
+                ),
+            }} name="Profile Page" component={Profile}/>
+            <Tab.Screen options={{
+                tabBarLabel: 'Albümler',
+                tabBarIcon: ({color}) => (
+                    <MaterialCommunityIcons name="folder-image" color={color} size={26}/>
+                ),
+            }} name="Albums" component={AlbumList}/>
+            <Tab.Screen options={{
+                tabBarLabel: 'Kamera',
+                tabBarIcon: ({color}) => (
+                    <MaterialCommunityIcons name="camera" color={color} size={26}/>
+                ),
+            }} name="Camera" component={Camera}/>
+            <Tab.Screen options={{
+                tabBarLabel: 'Sonuçlar',
+                tabBarIcon: ({color}) => (
+                    <MaterialCommunityIcons name="checkbox-marked-circle" color={color} size={26}/>
+                ),
+            }} name="Results" component={Results}/>
+        </Tab.Navigator>
+    );
+}
+
+export default App;
