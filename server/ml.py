@@ -20,12 +20,13 @@ img = image.load_img(file,target_size=(224,224))
 img = np.asarray(img)
 img = np.expand_dims(img, axis=0)
 
-saved_model = load_model("appDermis_vgg16.h5")
+
+saved_model = load_model("C:/Users\HP/ceng-407-408-2019-2020-Skin-Cancer-Detection-appDermis-/server/appDermis_vgg16.h5")
 output = saved_model.predict(img)
 
 if output==[1]:
-    print("Malignant")
+    print("Risk grubundasınız.")
 elif output==[0]:
-    print(" Benign")
+    print("Risk grubunda degilsiniz.")
 else:
-    print(" Undefined")
+    print("Lütfen tekrar deneyin.")

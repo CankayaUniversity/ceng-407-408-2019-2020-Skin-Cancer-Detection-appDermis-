@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AppRegistry, StyleSheet, Text, TouchableOpacity, View, Dimensions,TouchableHighlight} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { savePhoto } from '../actions/photo.actions'
 import { Field, reduxForm } from 'redux-form'
@@ -56,34 +56,40 @@ class Camera extends Component {
             buttonPositive: 'Ok',
             buttonNegative: 'Cancel',
           }}
-          onGoogleVisionBarcodesDetected={({ barcodes }) => {
-            console.log(barcodes);
-          }}>
-        <View style={styles.circle}></View>       
+      >      
+      <View
+      style = {{
+        borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
+        width: Dimensions.get('window').width * 0.5,
+        height: Dimensions.get('window').width * 0.5,
+        borderColor:'#fbdcce',
+        borderWidth: 3,
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+    </View>
       </RNCamera>
         <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
           <TouchableOpacity onPress={this.savePhoto.bind(this)} style={styles.capture}>
-            <Text style={{ fontSize: 14 }}> Fotoğraf Çek! </Text>
+            <Text style={{ fontSize: 14 }} onPress={() => alert("Lütfen Bekleyiniz")}> Fotoğraf Çek! </Text>
           </TouchableOpacity>
         </View>
       </View>
     );
   }
    send = async (gonderilcekData) => {
-     console.log("asssa",gonderilcekData)
     const body = JSON.stringify(gonderilcekData)
-        fetch("http://192.168.0.20:3333/sendPhoto", {
+        await fetch("http://192.168.0.20:3333/sendPhoto", {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(gonderilcekData),
-        })
-            .then(response => response.json())
-            .then((responseJson) => {
-                console.log('getting data from fetch', responseJson)
-            })
-            .catch(error => console.log(error))
+        }).then(response => response.json()).then((responseJson) => {
+            console.log('getting data from fetch', responseJson)
+        }).catch(error => 
+            console.log(error))
     }
 }
 
@@ -95,7 +101,7 @@ const styles = StyleSheet.create({
   },
   preview: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   capture: {
