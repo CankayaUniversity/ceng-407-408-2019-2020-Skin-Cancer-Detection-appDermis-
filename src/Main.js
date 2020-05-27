@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 
 class Main extends Component {
     render() {
-
         const {createUser} = this.props
         return (
             <View style={styles.container}>

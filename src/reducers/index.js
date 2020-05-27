@@ -7,6 +7,7 @@ import {reducer as formReducer} from 'redux-form'
 const reducers = {
     authReducer,
     userReducer,
+    photoReducer,
     form: formReducer
 }
 

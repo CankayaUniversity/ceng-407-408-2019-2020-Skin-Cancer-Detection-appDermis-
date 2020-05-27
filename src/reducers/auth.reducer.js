@@ -29,7 +29,6 @@ const authData = (state = {}, action) => {
 
 const createUser = (state = {}, action) => {
     switch (action.type) {
-
         case "CREATE_USER_LOADING":
             return {
                 isLoading: true,
@@ -54,7 +53,6 @@ const createUser = (state = {}, action) => {
                 isSuccess: false,
                 errors: action.payload
             }
-
         default:
             return state
     }
@@ -105,7 +103,6 @@ const loginUser = (state = {}, action) => {
                 isSuccess: true,
                 errors: null,
             }
-
         case "LOGIN_USER_FAIL":
             return {
                 isLoading: false,
