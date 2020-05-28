@@ -28,6 +28,7 @@
     "mongoose": "^5.9.7",
     "native-base": "^2.13.12",
     "nodemon": "^2.0.2",
+    "python-shell": "^2.0.0",
     "prop-types": "latest",
     "react": "16.8.3",
     "react-dom": "^16.13.1",
