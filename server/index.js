@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const connectDB = require('../db/db')
-const userController = require('../controllers/userController')
 const bodyParser = require('body-parser')
 const port = 3333
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Container, Content, DatePicker, Header} from 'native-base';
-import {Alert, ScrollView, StyleSheet, Text, TextInput, Picker, View} from 'react-native';
+import {Alert, ScrollView, StyleSheet, Text, TextInput, Picker, View, Image} from 'react-native';
 import {Button} from 'react-native-elements';
 import AsyncStorage from "@react-native-community/async-storage";
 import axios from "axios";
@@ -68,7 +68,7 @@ class EditProfileForm extends Component {
                 'Bilgileriniz güncellendi!',
                 'Profil bilgileriniz güncellendi. Profil sayfasına yönlendiriliyorsunuz...',
                 [
-                    {text: 'Tamam', onPress: () =>this.props.navigation.navigate('Profile')},
+                    {text: 'Tamam', onPress: () => this.props.navigation.navigate('Profile')},
 
                 ],
                 {cancelable: false},
@@ -78,6 +78,7 @@ class EditProfileForm extends Component {
         }
 
     }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -91,7 +92,9 @@ class EditProfileForm extends Component {
             initialEmail: '',
             initialBirthdate: '',
             initialGender: '',
+            token: ''
         }
+
         this.setUserProfile = this.setUserProfile.bind(this);
         this.setUserInfo = this.setUserInfo.bind(this);
         this.updateUser = this.updateUser.bind(this);
@@ -100,6 +103,7 @@ class EditProfileForm extends Component {
     }
 
     setUserProfile = (profile) => {
+        console.log(profile.data);
         this.setState({
             initialGender: profile.data.gender,
             initialBirthdate: profile.data.birthdate,
@@ -115,15 +119,16 @@ class EditProfileForm extends Component {
 
     };
 
-
-    componentDidMount(): void {
-        AsyncStorage.getItem('x-auth-token').then(x => axios.get('http://192.168.1.106:3333/api/profile/me/', x)
-            .then(r => this.setUserProfile(r))
-        ).then(x => axios.get('http://192.168.1.106:3333/api/auth/', x).then(r => this.setUserInfo(r)));
+    async componentWillMount(): void {
+        const token = await AsyncStorage.getItem('x-auth-token');
+        setAuthToken(token);
+        await axios.get('http://192.168.1.106:3333/api/auth/')
+            .then(r => this.setUserInfo(r)).catch(err => console.log(err));
+        await axios.get('http://192.168.1.106:3333/api/profile/me/')
+            .then(r => this.setUserProfile(r)).catch(err => console.log(err));
+        this.setState({ token });
     }
-
     render() {
-
         return (
             <ScrollView>
                 <Container>
@@ -205,7 +210,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         backgroundColor: '#fff6ea',
         borderRadius: 20,
-        elevation: 4
+        elevation: 4,
     },
 })
 
