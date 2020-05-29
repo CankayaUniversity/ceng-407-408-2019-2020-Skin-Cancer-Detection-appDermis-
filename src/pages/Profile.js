@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {ImageBackground, StyleSheet, View} from 'react-native';
 import {Button, Card, CardItem, Container, Content, Header, Text} from 'native-base';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+import setAuthToken from "../utils/setAuthToken";
 
 class Profile extends Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class Profile extends Component {
             email: '',
             gender: '',
             birthdate: '',
+            token: '',
 
         };
         this.setUserProfile = this.setUserProfile.bind(this);
@@ -26,11 +28,13 @@ class Profile extends Component {
         this.props.navigation.navigate('Login');
     }
     setUserProfile = (profile) => {
-        this.setState({
-            gender: profile.data.gender,
-            birthdate: profile.data.birthdate,
-        });
-
+        if (profile.data.gender === 'female')
+            this.setState({gender: 'Kadın'})
+        else if (profile.data.gender === 'male')
+            this.setState({gender: 'Erkek'})
+        else if (profile.data.gender === 'other')
+            this.setState({gender: 'Diğer'})
+        this.setState({birthdate: profile.data.birthdate})
     };
     setUserInfo = (user) => {
         this.setState({
@@ -40,10 +44,14 @@ class Profile extends Component {
         });
     }
 
-    componentDidMount(): void {
-        AsyncStorage.getItem('x-auth-token').then(x => axios.get('http://192.168.1.106:3333/api/profile/me/', x)
-            .then(r => this.setUserProfile(r))
-        ).then(x => axios.get('http://192.168.1.106:3333/api/auth/', x).then(r => this.setUserInfo(r)));
+    async componentWillMount(): void {
+        const token = await AsyncStorage.getItem('x-auth-token');
+        setAuthToken(token);
+        await axios.get('http://192.168.1.106:3333/api/auth/')
+            .then(r => this.setUserInfo(r)).catch(err => console.log(err));
+        await axios.get('http://192.168.1.106:3333/api/profile/me/')
+            .then(r => this.setUserProfile(r)).catch(err => console.log(err));
+        this.setState({ token });
     }
 
     render() {
@@ -70,7 +78,6 @@ class Profile extends Component {
                         <Text>Çıkış</Text>
                     </Button>
                 </Header>
-                <Image style={styles.avatar} />
                 <Content style={styles.body}>
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}> Merhaba {this.state.name}</Text>
@@ -111,6 +118,7 @@ const styles = StyleSheet.create({
     },
     body: {
         marginTop: 40,
+        backgroundColor:'#fff6ea'
     },
     bodyContent: {
         flex: 1,
@@ -143,6 +151,14 @@ const styles = StyleSheet.create({
         width: 250,
         borderRadius: 30,
         backgroundColor: "#00BFFF",
+    },
+    backgroundImage:{
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        justifyContent: "center",
+        alignItems: "center",
+        opacity: 0.7
     },
 });
 export default Profile;

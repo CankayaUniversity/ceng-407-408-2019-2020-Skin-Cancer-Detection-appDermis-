@@ -7,7 +7,7 @@ import Camera from "./src/pages/Camera";
 import Results from "./src/pages/Results";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
-import AlbumList from "./src/pages/AlbumList";
+import PhotoList from "./src/pages/PhotoList";
 import EditProfileForm from "./src/pages/EditProfileForm";
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -33,12 +33,13 @@ const App = ({navigation}) => {
     return (
         <NavigationContainer>
 
-            <Stack.Navigator headerMode={false} >
+            <Stack.Navigator headerMode={false}>
                 <Stack.Screen name="Login" component={Login}/>
                 <Stack.Screen name="Register" component={Register}/>
                 <Stack.Screen name="Profile" component={TabNavigator}/>
-                <Stack.Screen name="AlbumList" component={AlbumList}/>
+                <Stack.Screen name="PhotoList" component={PhotoList}/>
                 <Stack.Screen name="EditProfileForm" component={EditProfileForm}/>
+                <Stack.Screen name="Camera" component={Camera}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
@@ -57,11 +58,11 @@ function TabNavigator() {
                 ),
             }} name="Profile Page" component={Profile}/>
             <Tab.Screen options={{
-                tabBarLabel: 'Albümler',
+                tabBarLabel: 'Fotoğraflar',
                 tabBarIcon: ({color}) => (
                     <MaterialCommunityIcons name="folder-image" color={color} size={26}/>
                 ),
-            }} name="Albums" component={AlbumList}/>
+            }} name="PhotoList" component={PhotoList}/>
             <Tab.Screen options={{
                 tabBarLabel: 'Kamera',
                 tabBarIcon: ({color}) => (
