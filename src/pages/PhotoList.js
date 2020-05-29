@@ -27,7 +27,7 @@ class PhotoList extends Component {
                                 <Left>
                                     <MaterialCommunityIcons name="image"/>
                                     <Body>
-                                        <Text>Lesin number #1</Text>
+                                        <Text>Lesion number #1</Text>
                                     </Body>
                                 </Left>
                             </CardItem>

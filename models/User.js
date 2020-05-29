@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-//const jwt = require('jsonwebtoken');
-//const _ = require('lodash');
 const userSchema = new Schema({
     name: {
         type: String,
