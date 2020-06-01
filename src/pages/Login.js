@@ -31,7 +31,7 @@ class Login extends Component {
                     'Content-Type': 'application/json'
                 }
             }
-            axios.post('http://192.168.1.106:3333/api/auth/', loginUser, config).then(r => r.data).then(data => {
+            axios.post('http://192.168.0.20:3333/api/auth/', loginUser, config).then(r => r.data).then(data => {
                 try {
                     AsyncStorage.setItem('x-auth-token',data.token);
                     this.props.navigation.navigate('Profile');

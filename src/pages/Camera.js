@@ -45,9 +45,10 @@ class Camera extends Component {
             let config = {
                 headers: {
                     'Content-Type': 'application/json',
+                    
                 }
             }
-            axios.post('http://192.168.1.106:3333/api/photos/save', photoData, config)
+            axios.post('http://192.168.0.20:3333/api/photos/save', photoData, config)
                 .then(r => r.json())
                 .then((responseJson) => console.log('getting data from post', responseJson))
                 .catch(err => console.log(err));
@@ -115,7 +116,7 @@ class Camera extends Component {
 
     send = async (gonderilcekData) => {
         const body = JSON.stringify(gonderilcekData)
-        await fetch("http://192.168.1.106:3333/sendPhoto", {
+        await fetch("http://192.168.0.20:3333/sendPhoto", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

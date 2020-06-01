@@ -60,9 +60,9 @@ class EditProfileForm extends Component {
                 }
             }
             AsyncStorage.getItem('x-auth-token').then(r => setAuthToken(r));
-            const res = axios.post('http://192.168.1.106:3333/api/profile/', updatedProfile, config);
+            const res = axios.post('http://192.168.0.20:3333/api/profile/', updatedProfile, config);
             console.log(res);
-            const res2 = axios.post('http://192.168.1.106:3333/api/users/update', updatedUser, config);
+            const res2 = axios.post('http://192.168.0.20:3333/api/users/update', updatedUser, config);
             console.log(res2);
             Alert.alert(
                 'Bilgileriniz güncellendi!',
@@ -122,9 +122,9 @@ class EditProfileForm extends Component {
     async componentWillMount(): void {
         const token = await AsyncStorage.getItem('x-auth-token');
         setAuthToken(token);
-        await axios.get('http://192.168.1.106:3333/api/auth/')
+        await axios.get('http://192.168.0.20:3333/api/auth/')
             .then(r => this.setUserInfo(r)).catch(err => console.log(err));
-        await axios.get('http://192.168.1.106:3333/api/profile/me/')
+        await axios.get('http://192.168.0.20:3333/api/profile/me/')
             .then(r => this.setUserProfile(r)).catch(err => console.log(err));
         this.setState({ token });
     }

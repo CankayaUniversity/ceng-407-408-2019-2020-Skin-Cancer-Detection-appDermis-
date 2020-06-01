@@ -57,7 +57,7 @@ class Register extends Component {
           }
         }
         axios
-          .post('http://192.168.1.106:3333/api/users/', newUser, config)
+          .post('http://192.168.0.20:3333/api/users/', newUser, config)
           .then(r => r.data)
           .then(data => {
             console.log(data)

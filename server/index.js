@@ -4,6 +4,8 @@ const connectDB = require('../db/db')
 const bodyParser = require('body-parser')
 const port = 3333
 const path = 'C:\\Users\\HP\\ceng-407-408-2019-2020-Skin-Cancer-Detection-appDermis-\\server\\ml.py'
+let {PythonShell} = require('python-shell')
+
 async function callFunc(req, res) {
     return new Promise(function (resolve, reject) {
         let sonuc
@@ -25,9 +27,6 @@ async function callFunc(req, res) {
 
 //Connect database
 connectDB();
-
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
 
 //Init middleware
 app.use(express.json({extended: false}));
