@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {
+    Alert,
     Image,
     KeyboardAvoidingView,
     ScrollView,
@@ -15,6 +16,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import setAuthToken from "../utils/setAuthToken";
 
 class Login extends Component {
+
     state = {
         email: '',
         password: '',
@@ -33,12 +35,30 @@ class Login extends Component {
             }
             axios.post('http://192.168.1.106:3333/api/auth/', loginUser, config).then(r => r.data).then(data => {
                 try {
-                    AsyncStorage.setItem('x-auth-token',data.token);
+                    AsyncStorage.setItem('x-auth-token', data.token);
                     this.props.navigation.navigate('Profile');
+                    this.setState({
+                        email: '',
+                        password: '',
+                    })
                 } catch (err) {
+
                     console.log(err);
                 }
-            });
+            }).catch(err => {
+                console.log(err);
+                Alert.alert(
+                    'Giriş Yapılamıyor',
+                    'Eksik yada hatalı bilgi giridiniz. Lütfen tekrar deneyin.',
+                    [
+                        {
+                            text: 'Tamam',
+                            onPress: () => console.log('Ok Pressed')
+                        }
+                    ],
+                    {cancelable: true}
+                )
+            })
         } catch (err) {
             console.error(err);
         }

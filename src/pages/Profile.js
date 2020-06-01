@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import setAuthToken from "../utils/setAuthToken";
 
 class Profile extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -54,6 +55,7 @@ class Profile extends Component {
         this.setState({ token });
     }
 
+
     render() {
         return (
             <Container>
@@ -80,7 +82,7 @@ class Profile extends Component {
                 </Header>
                 <Content style={styles.body}>
                     <View style={styles.bodyContent}>
-                        <Text style={styles.name}> Merhaba {this.state.name}</Text>
+                        <Text style={styles.name}> Merhaba, {this.state.name} {this.state.surname} </Text>
                         <Text style={styles.info}>{this.state.email} </Text>
                     </View>
                     <Card style={{alignSelf: 'center', width: 350}}>

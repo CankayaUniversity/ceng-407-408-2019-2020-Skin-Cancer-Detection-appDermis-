@@ -66,7 +66,7 @@ class EditProfileForm extends Component {
             console.log(res2);
             Alert.alert(
                 'Bilgileriniz güncellendi!',
-                'Profil bilgileriniz güncellendi. Profil sayfasına yönlendiriliyorsunuz...',
+                'Profil bilgileriniz güncellendi. Profil sayfasına yönlendiriliyorsunuz...Değişikliklerin yansıması için tekrar giriş yapmalısınız...',
                 [
                     {text: 'Tamam', onPress: () => this.props.navigation.navigate('Profile')},
 
@@ -126,8 +126,9 @@ class EditProfileForm extends Component {
             .then(r => this.setUserInfo(r)).catch(err => console.log(err));
         await axios.get('http://192.168.1.106:3333/api/profile/me/')
             .then(r => this.setUserProfile(r)).catch(err => console.log(err));
-        this.setState({ token });
+        this.setState({token});
     }
+
     render() {
         return (
             <ScrollView>
@@ -153,7 +154,7 @@ class EditProfileForm extends Component {
                             }}/>
                             <Text style={styles.textStyle}>Cinsiyet: </Text>
                             <Picker
-                                selectedValue={this.state.initialGender}
+                                selectedValue={this.state.gender ? this.state.gender : this.state.initialGender}
                                 style={{height: 50, width: 200}}
                                 onValueChange={(itemValue, itemIndex) =>
                                     this.setState({gender: itemValue})
@@ -164,13 +165,12 @@ class EditProfileForm extends Component {
                             </Picker>
                             <Text style={styles.textStyle}>Doğum Tarihi: </Text>
                             <DatePicker
-                                defaultDate={this.state.initialBirthdate}
                                 locale={"en"}
                                 timeZoneOffsetInMinutes={undefined}
                                 modalTransparent={false}
                                 animationType={"fade"}
                                 androidMode={"default"}
-                                placeHolderText="Doğum tarihinizi seçiniz..."
+                                placeHolderText={this.state.birthdate ? this.state.birthdate : this.state.initialBirthdate}
                                 textStyle={{color: "green"}}
                                 placeHolderTextStyle={{color: "#d3d3d3"}}
                                 onDateChange={this.setDate}

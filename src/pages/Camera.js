@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import {Button, Dimensions, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {RNCamera} from 'react-native-camera';
-import {Dialog} from 'react-native-simple-dialogs';
 import axios from 'axios';
 import AsyncStorage from "@react-native-community/async-storage";
 import setAuthToken from "../utils/setAuthToken";
@@ -27,7 +26,7 @@ class Camera extends Component {
         photoLocation: '',
         dialogVisible: false,
         photo: '',
-        photoDate: '',
+        photoDate: new Date().getDate(),
     }
     sendDb = () => {
         console.log(this.state.photo)
