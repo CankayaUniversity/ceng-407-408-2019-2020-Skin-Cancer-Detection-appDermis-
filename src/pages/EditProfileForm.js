@@ -66,7 +66,7 @@ class EditProfileForm extends Component {
             console.log(res2);
             Alert.alert(
                 'Bilgileriniz güncellendi!',
-                'Profil bilgileriniz güncellendi. Profil sayfasına yönlendiriliyorsunuz...',
+                'Profil bilgileriniz güncellendi. Profil sayfasına yönlendiriliyorsunuz...Değişikliklerin yansıması için tekrar giriş yapmalısınız...',
                 [
                     {text: 'Tamam', onPress: () => this.props.navigation.navigate('Profile')},
 
