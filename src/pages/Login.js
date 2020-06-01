@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {
+    Alert,
     Image,
     KeyboardAvoidingView,
     ScrollView,
@@ -36,9 +37,23 @@ class Login extends Component {
                     AsyncStorage.setItem('x-auth-token',data.token);
                     this.props.navigation.navigate('Profile');
                 } catch (err) {
+
                     console.log(err);
                 }
-            });
+            }).catch(err=>{
+                console.log(err);
+                Alert.alert(
+                    'Giriş Yapılamıyor',
+                    'Eksik yada hatalı bilgi giridiniz. Lütfen tekrar deneyin.',
+                    [
+                        {
+                            text: 'Tamam',
+                            onPress: () => console.log('Ok Pressed')
+                        }
+                    ],
+                    { cancelable: true }
+                )
+            })
         } catch (err) {
             console.error(err);
         }
