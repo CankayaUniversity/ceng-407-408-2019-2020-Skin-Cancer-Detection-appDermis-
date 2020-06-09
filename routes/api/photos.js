@@ -43,4 +43,20 @@ router.get('/', auth, async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
+// @route  DELETE api/photo/delete
+// @desc   Delete current users photo
+// @access Private
+router.delete('/delete', async (req, res) => {
+    try {
+        //Remove user
+        console.log(req.body.photoId);
+        await Photos.findOneAndRemove({_id: req.body.photoId});
+        res.json({msg: 'Photo removed.'});
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
+
 module.exports = router;

@@ -23,8 +23,42 @@ class PhotoList extends Component {
             .then(r => this.setState({allPhotos: r.data})).catch(err => console.log(err));
     }
 
-    deletePhoto = () => {
+    isDelete = (photoID) => {
+        Alert.alert(
+            'Fotoğrafı silmek istediğinize emin misiniz?',
+            'Sildiğiniz fotoğraf analiz işlemleri için kullanılamayacak.',
+            [
+                {text: 'Tamam', onPress: () => this.deletePhoto(photoID)},
+                {
+                    text: 'İptal',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+            ],
+            {cancelable: true},
+        );
+    }
+    deletePhoto = (photoID) => {
+        console.log(photoID)
+        let deletedPhoto = JSON.stringify({
+            photoId: photoID
+        })
+        let config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        axios.delete('http://192.168.1.106:3333/api/photos/delete', deletedPhoto, config).then(r => {
+            Alert.alert(
+                'Fotoğrafınız silindi!',
+                'Değişikliklerin yansıması için tekrar giriş yapınız...',
+                [
+                    {text: 'Tamam', onPress: () => this.props.navigation.navigate('PhotoList')},
 
+                ],
+                {cancelable: false},
+            );
+        }).catch(err => console.log(err.message))
     }
 
     photos() {
@@ -39,9 +73,10 @@ class PhotoList extends Component {
                             </Body>
                         </Left>
                     </CardItem>
-                    <CardItem cardBody>
-                        <Image source={{uri: `data:image/png;base64,${element.img}`}}
-                               style={{height: 200, width: null, flex: 1}}/>
+                    <CardItem cardBody >
+                        <Image
+                            source={{uri: `data:image/png;base64,${Buffer(element.img.data, 'base64').toString('ascii')}`}}
+                            style={{height: 200, width: null, flex: 1}}/>
                     </CardItem>
                     <CardItem style={{backgroundColor: '#fff6ea'}}>
                         <Left>
@@ -49,15 +84,7 @@ class PhotoList extends Component {
                         </Left>
                         <Body style={{marginLeft: 5}}>
                             <TouchableOpacity
-                                onPress={() => Alert.alert('Uyarı!', 'Seçtiğiniz fotoğrafı silmek istediğinize emin misiniz?', [
-                                        {text: 'Sil', onPress: () => this.deletePhoto()},
-                                        {
-                                            text: 'İptal',
-                                            onPress: () => console.log('Cancel Pressed'),
-                                            style: 'cancel',
-                                        },
-                                    ],
-                                    {cancelable: true},)}
+                                onPress={() => this.isDelete(element._id)}
                                 style={{
                                     paddingVertical: 15,
                                     paddingHorizontal: 10,
@@ -79,7 +106,7 @@ class PhotoList extends Component {
     }
 
     render() {
-        console.log(this.state.allPhotos[7]);
+        console.log(this.state.allPhotos);
         return (
             <Container>
                 <Content>
