@@ -19,6 +19,7 @@ class Camera extends Component {
             let gonderilcekData = {
                 photo: data.base64
             }
+            console.log(data);
             this.send(gonderilcekData);
         }
     }
@@ -26,7 +27,7 @@ class Camera extends Component {
         photoLocation: '',
         dialogVisible: false,
         photo: '',
-        photoDate: new Date().getDate(),
+        photoDate: '',
     }
     sendDb = () => {
         console.log(this.state.photo)

@@ -159,6 +159,7 @@ class EditProfileForm extends Component {
                                 onValueChange={(itemValue, itemIndex) =>
                                     this.setState({gender: itemValue})
                                 }>
+                                <Picker.Item label="Seçiniz" value="empty"/>
                                 <Picker.Item label="Kadın" value="female"/>
                                 <Picker.Item label="Erkek" value="male"/>
                                 <Picker.Item label="Diğer" value="other"/>
